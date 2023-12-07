@@ -1,5 +1,4 @@
 ﻿using Adapters.BaseApi;
-using Classes.DTO;
 using Classes.Request.AuthenticationRequest;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -27,12 +26,6 @@ namespace Services.AuthenticationService
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
-                var userDTO = baseApiResponse.Result as UserDTO;
-
-
-
-
-
 
                 return baseApiResponse;
             }

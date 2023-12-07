@@ -1,6 +1,11 @@
-﻿using Classes.Request.AuthenticationRequest;
+﻿using Classes.DTO;
+using Classes.Request.AuthenticationRequest;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Services.AuthenticationService;
+using Newtonsoft.Json;
+using System.Security.Claims;
+using IAuthenticationService = Services.AuthenticationService.IAuthenticationService;
 
 namespace UI.Controllers
 {
@@ -27,7 +32,22 @@ namespace UI.Controllers
 
                 if (res.IsSuccess)
                 {
+                    var userDTO = JsonConvert.DeserializeObject<UserDTO>(res.Result.ToString());
 
+                    var claims = new List<Claim> {
+                    new Claim(ClaimTypes.Name,userDTO.Name),
+                    new Claim(ClaimTypes.Surname,userDTO.SurName),
+                    new Claim(ClaimTypes.Email,userDTO.Email),
+                    new Claim(ClaimTypes.MobilePhone,userDTO.PhoneNumber),
+                    new Claim(ClaimTypes.Role,"Admin"),
+                    new Claim(ClaimTypes.Role,"User")
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProperties = new AuthenticationProperties();
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,new ClaimsPrincipal(claimsIdentity),authProperties);
+
+                    return RedirectToAction("Index","Home");
                 }
                 else
                 {
