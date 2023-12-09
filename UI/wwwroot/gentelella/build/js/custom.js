@@ -74,6 +74,8 @@ function init_sidebar() {
 
     $SIDEBAR_MENU.find('a').on('click', function (ev) {
         var $li = $(this).parent();
+        $('li.active.active-sm').removeClass('active active-sm');
+        $('li.active').removeClass('active');
 
         if ($li.is('.active')) {
             $li.removeClass('active active-sm');
@@ -91,7 +93,6 @@ function init_sidebar() {
                     }
                 }
             }
-
             $li.addClass('active');
 
             $('ul:first', $li).slideDown(function () {

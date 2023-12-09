@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/gentelella/build/js/custom.min.js",
+    "inputFiles": [
+      "wwwroot/gentelella/build/js/custom.js"
+    ]
+  }
+]

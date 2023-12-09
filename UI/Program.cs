@@ -1,6 +1,7 @@
 using Adapters.BaseApi;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Services.AuthenticationService;
+using Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IBaseApiAdapter, BaseApiAdapter>();
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 var app = builder.Build();

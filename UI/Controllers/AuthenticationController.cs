@@ -2,6 +2,7 @@
 using Classes.Request.AuthenticationRequest;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Security.Claims;
@@ -20,6 +21,11 @@ namespace UI.Controllers
         }
         public IActionResult Login()
         {
+            if(TempData["LoginMessage"] is not null)
+            {
+                ViewData["LoginMessage"]=TempData["LoginMessage"];
+                TempData["LoginMessage"] = null;
+            }
             return View();
         }
         [HttpPost]
@@ -51,7 +57,7 @@ namespace UI.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("Error",res.ErrorMessage);
+                    ModelState.AddModelError("Error",res.Message);
                 }
             }
 
@@ -71,11 +77,21 @@ namespace UI.Controllers
 
                 if (res.IsSuccess)
                 {
-
+                    TempData["LoginMessage"] = res.Message;
+                    return RedirectToAction("Login", "Authentication");
                 }
                 else
                 {
-                    ModelState.AddModelError("Error", res.ErrorMessage);
+
+                    ModelState.AddModelError("Error", res.Message);
+                    if (res.Result is not null) {
+                        List<IdentityError> identityErrors = JsonConvert.DeserializeObject<List<IdentityError>>(res.Result.ToString())??new List<IdentityError>();
+
+                        foreach (var err in identityErrors)
+                        {
+                            ModelState.AddModelError("Error", err.Description);
+                        }
+                    }
                 }
             }
             return View(model);

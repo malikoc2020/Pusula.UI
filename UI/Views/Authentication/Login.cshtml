@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Login Page";
+    string loginMessage = ViewBag.loginMessage;
     Layout = null;
 }
 @model Classes.Request.AuthenticationRequest.LoginRequest;
@@ -44,6 +45,11 @@
                             <button class="btn btn-default submit" type="submit">Log in</button>
                             <a class="reset_pass" href="#">Lost your password?</a>
                         </div>
+
+                        @if (!string.IsNullOrEmpty(loginMessage))
+                        {
+                            <p style="color:green;">@loginMessage</p>
+                        }
 
                         @if (!ViewData.ModelState.IsValid)
                         {

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\gentelella\vendors\parsleyjs\bower_components\bootstrap\bower.json" />
     <Content Include="wwwroot\gentelella\vendors\parsleyjs\bower_components\bootstrap\dist\css\bootstrap-theme.css" />
     <Content Include="wwwroot\gentelella\vendors\parsleyjs\bower_components\bootstrap\dist\css\bootstrap-theme.min.css" />
@@ -25,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="bundleconfig.json" />
     <None Include="wwwroot\gentelella\vendors\bootstrap\.github\CODEOWNERS" />
     <None Include="wwwroot\gentelella\vendors\bootstrap\.github\CONTRIBUTING.md" />
     <None Include="wwwroot\gentelella\vendors\bootstrap\.github\ISSUE_TEMPLATE\bug.md" />
@@ -196,6 +201,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BuildBundlerMinifier2022" Version="2.9.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
   </ItemGroup>
 

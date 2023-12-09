@@ -17,6 +17,7 @@ namespace Adapters.BaseApi
             _httpClient = httpClient;
             _apiURL = configuration["BaseApiURL"]??"";
         }
+        #region Authencitation
         public async Task<HttpResponseMessage> Login(LoginRequest loginRequest)
         {
             return await _httpClient.PostAsJsonAsync($"{_apiURL}/Authentication/login", loginRequest);
@@ -25,5 +26,18 @@ namespace Adapters.BaseApi
         {
             return await _httpClient.PostAsJsonAsync($"{_apiURL}/Authentication/register", registerRequest);
         }
+        #endregion
+
+
+        #region Authencitation
+        public async Task<HttpResponseMessage> GetAllUsers()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/User/GetAllUsers");
+        }
+        public async Task<HttpResponseMessage> GetUserById(string userId)
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/User/GetUserById/{userId}");
+        }
+        #endregion
     }
 }
