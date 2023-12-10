@@ -11,7 +11,11 @@ $(document).ready(function () {
         const action = $(this).data("action");
 
         var url = `/${controller}/${action}`;
-       $('#layout_main_content').load(url);
+        $('#layout_main_content').load(url, function (response, status, xhr) {
+            if (xhr.status == 401) {
+                window.location.href = "/Authentication/login";
+            }
+        });
         return false;
     });
 }); 

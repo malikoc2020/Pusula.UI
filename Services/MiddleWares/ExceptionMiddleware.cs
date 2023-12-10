@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Services.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.MiddleWares
 {
@@ -40,7 +37,15 @@ namespace Services.MiddleWares
             var code = HttpStatusCode.InternalServerError;
 
             if (exception is ArgumentException) code = HttpStatusCode.BadRequest;
-            else if (exception is UnauthorizedAccessException) code = HttpStatusCode.Unauthorized;
+            else if (exception is UnauthorizedAccessException)
+            {
+                code = HttpStatusCode.Unauthorized;
+                //redirect to login here
+                //context.Response.Redirect("/Authentication/login");
+                //return;
+                context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            }
             else if (exception is NotImplementedException) code = HttpStatusCode.NotImplemented;
 
             var result = JsonConvert.SerializeObject(new BaseResponse { IsSuccess = false, Message = exception.Message });

@@ -1,16 +1,9 @@
 ﻿using Adapters.BaseApi;
 using Classes.DTO;
-using Classes.Request.AuthenticationRequest;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Services.AuthenticationService;
 using Services.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.UserService
 {
@@ -37,6 +30,13 @@ namespace Services.UserService
                 baseApiResponse.Result = users;
 
                 return baseApiResponse;
+            }else if(response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to access this resource. Please login.");
+            }
+            if (baseApiResponse is null)
+            {
+                baseApiResponse = new BaseResponse(false,"",null);
             }
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
             return baseApiResponse;
@@ -52,6 +52,13 @@ namespace Services.UserService
                 baseApiResponse.Result = user;
 
                 return baseApiResponse;
+            }else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to access this resource. Please login.");
+            }
+            if (baseApiResponse is null)
+            {
+                baseApiResponse = new BaseResponse(false, "", null);
             }
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
             return baseApiResponse;
