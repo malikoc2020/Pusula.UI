@@ -74,8 +74,6 @@ function init_sidebar() {
 
     $SIDEBAR_MENU.find('a').on('click', function (ev) {
         var $li = $(this).parent();
-        $('li.active.active-sm').removeClass('active active-sm');
-        $('li.active').removeClass('active');
 
         if ($li.is('.active')) {
             $li.removeClass('active active-sm');
@@ -99,9 +97,16 @@ function init_sidebar() {
                 setContentHeight();
             });
         }
+        $('li.active.active-sm').filter(function () {
+            return $(this).parent().hasClass('child_menu');
+        }).not($li).removeClass('active active-sm');
+        $('li.active').filter(function () {
+            return $(this).parent().hasClass('child_menu');
+        }).not($li).removeClass('active');
+
     });
 
-    // toggle small or large menu
+        // toggle small or large menu
     $MENU_TOGGLE.on('click', function () {
         if ($BODY.hasClass('nav-md')) {
             $SIDEBAR_MENU.find('li.active ul').hide();
