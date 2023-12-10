@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Security.Claims;
 using IAuthenticationService = Services.AuthenticationService.IAuthenticationService;
 
@@ -45,13 +47,25 @@ namespace UI.Controllers
                     new Claim(ClaimTypes.Surname,userDTO.SurName),
                     new Claim(ClaimTypes.Email,userDTO.Email),
                     new Claim(ClaimTypes.MobilePhone,userDTO.PhoneNumber),
-                    new Claim(ClaimTypes.Role,"Admin"),
-                    new Claim(ClaimTypes.Role,"User")
+                    new Claim("AccessToken", userDTO.Token) // Add token claim
+                    //new Claim(ClaimTypes.Role,"Admin"),
+                    //new Claim(ClaimTypes.Role,"User")
                     };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var authProperties = new AuthenticationProperties();
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,new ClaimsPrincipal(claimsIdentity),authProperties);
+
+                    // Store token in local storage
+                    //HttpContext.Response.Headers.Add("BaseAPI-Token", userDTO.Token);
+                    // Set token cookie
+                    Response.Cookies.Append("AccessToken", userDTO.Token, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict
+                    });
+
 
                     return RedirectToAction("Index","Home");
                 }

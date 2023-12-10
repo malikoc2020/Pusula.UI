@@ -6,7 +6,7 @@ using UI.Models;
 
 namespace UI.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

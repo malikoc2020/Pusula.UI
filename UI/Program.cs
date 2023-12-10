@@ -6,6 +6,7 @@ using Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -14,6 +15,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.Cookie.Name = "Pusula.UI";
     options.LoginPath = "/Authentication/Login";
     options.AccessDeniedPath = "/Authentication/AccessDenied";
+
 });
 
 builder.Services.AddHttpClient();
