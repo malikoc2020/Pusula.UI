@@ -28,34 +28,33 @@ namespace Services.UserService
         public async Task<BaseResponse> GetAllUsers()
         {
             var response = await _baseApiAdapter.GetAllUsers();
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                var content = await response.Content.ReadAsStringAsync();
-                var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
-
                 List<UserDTO> users = JsonConvert.DeserializeObject<List<UserDTO>>(baseApiResponse.Result.ToString()) ?? new List<UserDTO>();
                 baseApiResponse.Result = users;
 
                 return baseApiResponse;
             }
-            return new BaseResponse(false, $"Api Status Code : {response.StatusCode}", null);
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
         }
         public async Task<BaseResponse> GetUserById(string userId)
         {
             var response = await _baseApiAdapter.GetUserById(userId);
-
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                var content = await response.Content.ReadAsStringAsync();
-                var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
-
                 UserDTO user = JsonConvert.DeserializeObject<UserDTO>(baseApiResponse.Result.ToString()) ?? new UserDTO();
                 baseApiResponse.Result = user;
 
                 return baseApiResponse;
             }
-            return new BaseResponse(false, $"Api Status Code : {response.StatusCode}", null);
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
         }
     }
 }

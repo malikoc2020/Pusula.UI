@@ -21,26 +21,26 @@ namespace Services.AuthenticationService
         public async Task<BaseResponse> Login(LoginRequest loginRequest)
         {
             var response = await _baseApiAdapter.Login(loginRequest);
-
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                var content = await response.Content.ReadAsStringAsync();
-                var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
-
                 return baseApiResponse;
             }
-            return new BaseResponse(false, $"Api Status Code : {response.StatusCode}", null);
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
         }
         public async Task<BaseResponse> Register(RegisterRequest registerRequest)
         {
-            var baseResponse = await _baseApiAdapter.Register(registerRequest);
-
-            if (baseResponse.StatusCode == HttpStatusCode.OK)
+            var response = await _baseApiAdapter.Register(registerRequest);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                var content = await baseResponse.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<BaseResponse>(content);
+                return baseApiResponse;
             }
-            return new BaseResponse(false, $"Api Status Code : {baseResponse.StatusCode}", null);
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
         }
     }
 }
