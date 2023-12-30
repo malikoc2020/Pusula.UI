@@ -59,12 +59,13 @@ namespace UI.Controllers
                     // Store token in local storage
                     //HttpContext.Response.Headers.Add("BaseAPI-Token", userDTO.Token);
                     // Set token cookie
-                    Response.Cookies.Append("AccessToken", userDTO.Token, new CookieOptions
-                    {
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.Strict
-                    });
+
+                    //Response.Cookies.Append("AccessToken", userDTO.Token, new CookieOptions
+                    //{
+                    //    HttpOnly = true,
+                    //    Secure = true,
+                    //    SameSite = SameSiteMode.None
+                    //});
 
 
                     return RedirectToAction("Index","Home");

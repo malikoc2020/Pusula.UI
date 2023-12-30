@@ -23,7 +23,11 @@ namespace Adapters.BaseApi
 
         private string GetAccessToken(IHttpContextAccessor httpContextAccessor)
         {
-            return httpContextAccessor.HttpContext.Request.Cookies["AccessToken"];
+            var claims = httpContextAccessor.HttpContext.User.Claims;
+            var accessTokenClaim = claims.FirstOrDefault(c => c.Type == "AccessToken");
+            return accessTokenClaim != null ? accessTokenClaim.Value : "";
+            //return httpContextAccessor.HttpContext.Request.Cookies["AccessToken"];
+
         }
 
 
