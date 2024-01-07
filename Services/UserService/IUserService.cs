@@ -1,4 +1,5 @@
 ﻿using Classes.Request.AuthenticationRequest;
+using Classes.Request.UserRequest;
 using Services.Response;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace Services.UserService
 {
     public interface IUserService
     {
+        Task<BaseResponse> VerifyPhone(VerifyRequest verifyRequest);
+        Task<BaseResponse> SendVerifyCode();
         Task<BaseResponse> GetAllUsers();
         Task<BaseResponse> GetUserById(string userId);
 

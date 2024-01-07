@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Services.Response;
 using System.Security.Claims;
 using IAuthenticationService = Services.AuthenticationService.IAuthenticationService;
 
@@ -43,6 +42,7 @@ namespace UI.Controllers
                     var userDTO = JsonConvert.DeserializeObject<UserDTO>(res.Result.ToString());
 
                     var claims = new List<Claim> {
+                    new Claim(ClaimTypes.PrimarySid,userDTO.Id),
                     new Claim(ClaimTypes.Name,userDTO.Name),
                     new Claim(ClaimTypes.Surname,userDTO.SurName),
                     new Claim(ClaimTypes.Email,userDTO.Email),
@@ -67,7 +67,10 @@ namespace UI.Controllers
                     //    SameSite = SameSiteMode.None
                     //});
 
-
+                    if (!userDTO.PhoneNumberConfirmed)
+                    {
+                        return RedirectToAction("VerifyPhone", "User");
+                    }
                     return RedirectToAction("Index","Home");
                 }
                 else
@@ -110,6 +113,14 @@ namespace UI.Controllers
                 }
             }
             return View(model);
+        }
+        public async Task<IActionResult> LogOut()
+        {
+            // Invalidate the user's session or authentication cookie
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Redirect to the login page or any other page after logout
+            return RedirectToAction("Login", "Authentication");
         }
     }
 }

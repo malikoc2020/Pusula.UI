@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Verify Phone Page";
+    string verifyMessage = ViewBag.verifyMessage;
+    Layout = null;
+}
+@model Classes.Request.UserRequest.VerifyRequest;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Gentelella Alela! | </title>
+
+    <!-- Bootstrap -->
+    <link href="~/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="~/gentelella/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="~/gentelella/vendors/animate.css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="~/gentelella/build/css/custom.min.css" rel="stylesheet">
+</head>
+
+<body class="login">
+    <div>
+        <div class="login_wrapper">
+            <div class="animate form">
+                <section class="login_content">
+                    <form id="Login" method="post" asp-controller="User" asp-action="VerifyPhone">
+                        <h1>Verify Form</h1>
+                        <input type="hidden" asp-for="TempVerifyCode" />
+                        <div>
+                            <input type="text" class="form-control" placeholder="Phone Number" required="" asp-for="@Model.PhoneNumber" readonly/>
+                        </div>
+                        <div>
+                            <input type="text" class="form-control" placeholder="Verify Code" required="" asp-for="@Model.Code" />
+                        </div>
+                        <div>
+                            <p>(Sended Code : @Model.TempVerifyCode)</p>
+                            @* @TempData.Keep("VerifyCode") *@
+                        </div>
+                        <div>
+                            <button class="btn btn-success submit" type="submit">Verify</button>
+                            <a class="" type="button" asp-controller="Home" asp-action="Index">Remind me later</a>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(verifyMessage))
+                        {
+                            <p style="color:green;">@verifyMessage</p>
+                        }
+
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <p style="color:red;">@error.ErrorMessage</p>
+                            }
+                        }
+
+                        <div class="clearfix"></div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

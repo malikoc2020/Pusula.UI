@@ -1,5 +1,7 @@
 ﻿using Adapters.BaseApi;
 using Classes.DTO;
+using Classes.Request.AuthenticationRequest;
+using Classes.Request.UserRequest;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Services.Response;
@@ -16,6 +18,30 @@ namespace Services.UserService
             _logger = logger;
             _baseApiAdapter = baseApiAdapter;
 
+        }
+        public async Task<BaseResponse> SendVerifyCode()
+        {
+            var response = await _baseApiAdapter.SendVerifyCode();
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return baseApiResponse;
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> VerifyPhone(VerifyRequest verifyRequest)
+        {
+            var response = await _baseApiAdapter.VerifyPhone(verifyRequest);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return baseApiResponse;
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
         }
 
         public async Task<BaseResponse> GetAllUsers()

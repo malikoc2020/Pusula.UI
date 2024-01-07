@@ -5,6 +5,8 @@ using System.Net.Http.Json;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
+using Classes.Request.UserRequest;
 
 namespace Adapters.BaseApi
 {
@@ -13,23 +15,23 @@ namespace Adapters.BaseApi
         private readonly ILogger<BaseApiAdapter> _logger;
         private readonly HttpClient _httpClient;
         private readonly string _apiURL;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public BaseApiAdapter(ILogger<BaseApiAdapter> logger, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, HttpClient httpClient)
         {
             _logger = logger;
             _httpClient = httpClient;
-            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + GetAccessToken(httpContextAccessor));
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + GetClaimByType(httpContextAccessor, "AccessToken"));
             _apiURL = configuration["BaseApiURL"] ?? "";
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        private string GetAccessToken(IHttpContextAccessor httpContextAccessor)
+        private string GetClaimByType(IHttpContextAccessor httpContextAccessor, string claimType)
         {
             var claims = httpContextAccessor.HttpContext.User.Claims;
-            var accessTokenClaim = claims.FirstOrDefault(c => c.Type == "AccessToken");
+            var accessTokenClaim = claims.FirstOrDefault(c => c.Type == claimType);
             return accessTokenClaim != null ? accessTokenClaim.Value : "";
             //return httpContextAccessor.HttpContext.Request.Cookies["AccessToken"];
-
         }
-
 
         #region Authencitation
         public async Task<HttpResponseMessage> Login(LoginRequest loginRequest)
@@ -42,18 +44,25 @@ namespace Adapters.BaseApi
         }
         #endregion
 
- 
 
-        #region Authencitation
+        #region User
         public async Task<HttpResponseMessage> GetAllUsers()
         {
             return await _httpClient.GetAsync($"{_apiURL}/User/GetAllUsers");
-
- 
         }
         public async Task<HttpResponseMessage> GetUserById(string userId)
         {
             return await _httpClient.GetAsync($"{_apiURL}/User/GetUserById/{userId}");
+        }
+        public async Task<HttpResponseMessage> VerifyPhone(VerifyRequest verifyRequest)
+        {
+            verifyRequest.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/User/verifyPhone", verifyRequest);
+        }
+        public async Task<HttpResponseMessage> SendVerifyCode()
+        {
+            string phoneNumber = GetClaimByType(_httpContextAccessor, ClaimTypes.MobilePhone);
+            return await _httpClient.GetAsync($"{_apiURL}/User/sendVerifyCode/{phoneNumber}");
         }
         #endregion
     }
