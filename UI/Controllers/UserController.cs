@@ -62,5 +62,28 @@ namespace UI.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> Users()
+        { 
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var res = await _userService.GetAllUsers();
+            return Json(res);
+        }
+        [HttpGet("user/GetUserById/{userId}")]
+        public async Task<IActionResult> GetUserById(string userId)
+        {
+            var res = await _userService.GetUserById(userId);
+            return Json(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UserUpdate([FromBody] UserUpdateRequest request)
+        {
+            var res = await _userService.UpdateUser(request);
+            return Json(res);
+        }
     }
 }

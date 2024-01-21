@@ -24,7 +24,7 @@ namespace UI.Controllers
         }
         public async Task<IActionResult> Index4()
         {
-            var res = await _userService.GetAllUsers();
+            //var res = await _userService.GetAllUsers();
             return View();
         }
         public async Task<IActionResult> Index5()

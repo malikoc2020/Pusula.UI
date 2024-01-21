@@ -89,5 +89,17 @@ namespace Services.UserService
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
             return baseApiResponse;
         }
+        public async Task<BaseResponse> UpdateUser(UserUpdateRequest request)
+        {
+            var response = await _baseApiAdapter.UpdateUser(request);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return baseApiResponse;
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
     }
 }

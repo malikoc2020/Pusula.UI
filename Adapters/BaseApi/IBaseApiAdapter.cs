@@ -12,5 +12,6 @@ namespace Adapters.BaseApi
         Task<HttpResponseMessage> GetUserById(string userId);
         Task<HttpResponseMessage> VerifyPhone(VerifyRequest verifyRequest);
         Task<HttpResponseMessage> SendVerifyCode();
+        Task<HttpResponseMessage> UpdateUser(UserUpdateRequest request);
     }
 }

@@ -30,7 +30,6 @@ namespace Adapters.BaseApi
             var claims = httpContextAccessor.HttpContext.User.Claims;
             var accessTokenClaim = claims.FirstOrDefault(c => c.Type == claimType);
             return accessTokenClaim != null ? accessTokenClaim.Value : "";
-            //return httpContextAccessor.HttpContext.Request.Cookies["AccessToken"];
         }
 
         #region Authencitation
@@ -65,5 +64,11 @@ namespace Adapters.BaseApi
             return await _httpClient.GetAsync($"{_apiURL}/User/sendVerifyCode/{phoneNumber}");
         }
         #endregion
+
+        public async Task<HttpResponseMessage> UpdateUser(UserUpdateRequest request)
+        {
+            request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/User/updateUser", request);
+        }
     }
 }

@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "Users";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Gentelella Alela! | </title>
+
+    <link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+
+    <!-- Bootstrap -->
+    <link href="~/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="~/gentelella/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="~/gentelella/vendors/animate.css/animate.min.css" rel="stylesheet">
+
+    <link href="~/gentelella/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="~/gentelella/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="~/gentelella/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="~/gentelella/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="~/gentelella/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="~/gentelella/build/css/custom.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Button Example <small>Users</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <p class="text-muted font-13 m-b-30">
+                                The Buttons extension for DataTables provides a common set of options, API methods and styling to display buttons on a page that will interact with a DataTable. The core library provides the based framework upon which plug-ins can built.
+                            </p>
+                            <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Sur Name</th>
+                                        <th>Email</th>
+                                        <th>Phone Number</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+ 
+    @Html.Partial("_UserDetailModal")
+
+
+    <script src="~/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/gentelella/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/gentelella/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="~/gentelella/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/gentelella/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/gentelella/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/gentelella/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/gentelella/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="~/gentelella/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/gentelella/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="~/gentelella/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="~/gentelella/vendors/jszip/dist/jszip.min.js"></script>
+    <script src="~/gentelella/vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="~/gentelella/vendors/pdfmake/build/vfs_fonts.js"></script>
+
+    <script src="~/js/user/users.js"></script>
+</body>
+</html>
