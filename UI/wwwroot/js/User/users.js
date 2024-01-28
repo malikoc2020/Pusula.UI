@@ -6,10 +6,9 @@ var Users = {
         // Other initialization code
         this.HandleUserCompanents();
     },
-
+    currentUserData: null,
     // You can add other methods as needed
     HandleUserCompanents: function () {
-        console.log("Another function");
         getUsers();
 
 
@@ -99,7 +98,7 @@ var Users = {
 
         function getUser(userId) {
             $.ajax({
-                url: '/User/GetUserById/' + userId, // Update with the correct endpoint URL
+                url: '/User/GetUserByIdForUserEdit/' + userId, // Update with the correct endpoint URL
                 method: 'GET',
                 dataType: 'json', // Expecting JSON data
                 success: function (response) {
@@ -108,15 +107,9 @@ var Users = {
                     if (response.isSuccess) {
                         console.log("user data : ");
                         console.log(response);
+                        Users.currentUserData = response.result; // Assign the response to the global variable
                         // Open the modal
-                        var user = response.result;
-
-                        $("#id").val(user.id);
-                        $("#name").val(user.name);
-                        $("#surName").val(user.surName);
-                        $("#email").val(user.email);
-                        $("#phoneNumber").val(user.phoneNumber);
-
+                        setUser(Users.currentUserData);
                         $('#editUserModal').modal('show');
                     } else {
                         console.log(response);
@@ -133,6 +126,16 @@ var Users = {
             });
         }
 
+        function setUser(userResponse) {
+            var user = userResponse.user;
+
+            $("#id").val(user.id);
+            $("#name").val(user.name);
+            $("#surName").val(user.surName);
+            $("#email").val(user.email);
+            $("#phoneNumber").val(user.phoneNumber);
+            setRoleArea(userResponse.allRoles, user.userRoles);
+        }
 
         $('#editUserModal').on('click', '#btnUserSave', function () {
             let id = $("#id").val();
@@ -140,13 +143,20 @@ var Users = {
             let surName = $("#surName").val();
             let email = $("#email").val();
             let phoneNumber = $("#phoneNumber").val();
+            let userRoles = [];
+            $('.userrole').each(function () {
+                if ($(this).is(':checked')) {
+                    userRoles.push($(this).val());
+                }
+            });
 
             var request = {
                 Id: id,
                 Name: name,
                 SurName: surName,
                 Email: email,
-                PhoneNumber: phoneNumber
+                PhoneNumber: phoneNumber,
+                UserRoles: userRoles
             }
             console.log(request);
             $.ajax({
@@ -177,6 +187,49 @@ var Users = {
                 }
             });
 
+        });
+        $('#editUserModal').on('click', '#btnUserCancel', function () {
+            setUser(Users.currentUserData);
+        });
+        function getRoleElement(roleName, checked) {
+
+            if (checked) {
+                return `	<div class="checkbox">
+								<label>
+												<input type="checkbox" class="flat userrole" value="${roleName}" checked="checked"> ${roleName}
+								</label>
+				</div>`;
+            } else {
+                return `
+				<div class="checkbox">
+								<label>
+												<input type="checkbox" class="flat userrole" value="${roleName}"> ${roleName}
+								</label>
+				</div>`;
+            }
+        }
+
+        function setRoleArea(allRoles, userRoles) {
+            var res = "";
+            allRoles.forEach(function (role) {
+                res += getRoleElement(role, userRoles.includes(role));
+            });
+            $("#userRoleArea").html(`${res}`);
+
+            if ($("input.flat")[0]) {
+                $(document).ready(function () {
+                    $('input.flat').iCheck({
+                        checkboxClass: 'icheckbox_flat-green',
+                        radioClass: 'iradio_flat-green'
+                    });
+                });
+            }
+
+        }
+
+        $('#editUserModal').on('hidden.bs.modal', function (e) {
+            // If you need to reset the global variable or perform other cleanup tasks, do it here
+            Users.currentUserData = null;
         });
     },
 };

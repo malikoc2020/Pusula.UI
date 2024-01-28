@@ -15,6 +15,7 @@ namespace Services.UserService
         Task<BaseResponse> SendVerifyCode();
         Task<BaseResponse> GetAllUsers();
         Task<BaseResponse> GetUserById(string userId);
+        Task<BaseResponse> GetUserByIdForUserEdit(string userId);
         Task<BaseResponse> UpdateUser(UserUpdateRequest request);
 
     }

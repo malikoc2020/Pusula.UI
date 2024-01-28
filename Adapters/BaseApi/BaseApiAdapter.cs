@@ -53,6 +53,10 @@ namespace Adapters.BaseApi
         {
             return await _httpClient.GetAsync($"{_apiURL}/User/GetUserById/{userId}");
         }
+        public async Task<HttpResponseMessage> GetUserByIdForUserEdit(string userId)
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/User/GetUserByIdForUserEdit/{userId}");
+        }
         public async Task<HttpResponseMessage> VerifyPhone(VerifyRequest verifyRequest)
         {
             verifyRequest.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);

@@ -10,6 +10,7 @@ namespace Adapters.BaseApi
         Task<HttpResponseMessage> Register(RegisterRequest registerRequest);
         Task<HttpResponseMessage> GetAllUsers();
         Task<HttpResponseMessage> GetUserById(string userId);
+        Task<HttpResponseMessage> GetUserByIdForUserEdit(string userId);
         Task<HttpResponseMessage> VerifyPhone(VerifyRequest verifyRequest);
         Task<HttpResponseMessage> SendVerifyCode();
         Task<HttpResponseMessage> UpdateUser(UserUpdateRequest request);

@@ -79,6 +79,12 @@ namespace UI.Controllers
             var res = await _userService.GetUserById(userId);
             return Json(res);
         }
+        [HttpGet("user/GetUserByIdForUserEdit/{userId}")]
+        public async Task<IActionResult> GetUserByIdForUserEdit(string userId)
+        {
+            var res = await _userService.GetUserByIdForUserEdit(userId);
+            return Json(res);
+        }
         [HttpPost]
         public async Task<IActionResult> UserUpdate([FromBody] UserUpdateRequest request)
         {

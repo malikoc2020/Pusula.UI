@@ -89,6 +89,29 @@ namespace Services.UserService
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
             return baseApiResponse;
         }
+        public async Task<BaseResponse> GetUserByIdForUserEdit(string userId)
+        {
+            var response = await _baseApiAdapter.GetUserByIdForUserEdit(userId);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                UserEditDTO res = JsonConvert.DeserializeObject<UserEditDTO>(baseApiResponse.Result.ToString()) ?? new UserEditDTO();
+                baseApiResponse.Result = res;
+
+                return baseApiResponse;
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to access this resource. Please login.");
+            }
+            if (baseApiResponse is null)
+            {
+                baseApiResponse = new BaseResponse(false, "", null);
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
         public async Task<BaseResponse> UpdateUser(UserUpdateRequest request)
         {
             var response = await _baseApiAdapter.UpdateUser(request);
