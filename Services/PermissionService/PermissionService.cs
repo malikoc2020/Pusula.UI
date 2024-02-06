@@ -1,57 +1,34 @@
 ﻿using Adapters.BaseApi;
 using Classes.DTO;
 using Classes.Request.UserRequest;
+using Classes.Response.PermissionResponse;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Services.Response;
 using System.Net;
 
-namespace Services.UserService
+namespace Services.PermissionService
 {
-    public class UserService : IUserService
+    public class PermissionService : IPermissionService
     {
-        private readonly ILogger<UserService> _logger;
+        private readonly ILogger<PermissionService> _logger;
         private readonly IBaseApiAdapter _baseApiAdapter;
-        public UserService(ILogger<UserService> logger, IBaseApiAdapter baseApiAdapter)
+        public PermissionService(ILogger<PermissionService> logger, IBaseApiAdapter baseApiAdapter)
         {
             _logger = logger;
             _baseApiAdapter = baseApiAdapter;
 
         }
-        public async Task<BaseResponse> SendVerifyCode()
-        {
-            var response = await _baseApiAdapter.SendVerifyCode();
-            var content = await response.Content.ReadAsStringAsync();
-            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                return baseApiResponse;
-            }
-            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
-            return baseApiResponse;
-        }
-        public async Task<BaseResponse> VerifyPhone(VerifyRequest verifyRequest)
-        {
-            var response = await _baseApiAdapter.VerifyPhone(verifyRequest);
-            var content = await response.Content.ReadAsStringAsync();
-            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                return baseApiResponse;
-            }
-            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
-            return baseApiResponse;
-        }
 
-        public async Task<BaseResponse> GetAllUsers()
+        public async Task<BaseResponse> GetAllPermissions()
         {
-            var response = await _baseApiAdapter.GetAllUsers();
+            var response = await _baseApiAdapter.GetAllPermissions();
             var content = await response.Content.ReadAsStringAsync();
             var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                List<UserDTO> users = JsonConvert.DeserializeObject<List<UserDTO>>(baseApiResponse.Result.ToString()) ?? new List<UserDTO>();
+                List<Permission> users = JsonConvert.DeserializeObject<List<Permission>>(baseApiResponse.Result.ToString()) ?? new List<Permission>();
                 baseApiResponse.Result = users;
 
                 return baseApiResponse;
@@ -66,15 +43,15 @@ namespace Services.UserService
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
             return baseApiResponse;
         }
-        public async Task<BaseResponse> GetUserById(string userId)
+        public async Task<BaseResponse> GetPermissionById(int permissionId)
         {
-            var response = await _baseApiAdapter.GetUserById(userId);
+            var response = await _baseApiAdapter.GetPermissionById(permissionId);
             var content = await response.Content.ReadAsStringAsync();
             var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                UserDTO user = JsonConvert.DeserializeObject<UserDTO>(baseApiResponse.Result.ToString()) ?? new UserDTO();
-                baseApiResponse.Result = user;
+                PermissionDTO permission = JsonConvert.DeserializeObject<PermissionDTO>(baseApiResponse.Result.ToString()) ?? new PermissionDTO();
+                baseApiResponse.Result = permission;
 
                 return baseApiResponse;
             }else if (response.StatusCode == HttpStatusCode.Unauthorized)
@@ -82,38 +59,27 @@ namespace Services.UserService
                 throw new UnauthorizedAccessException("You are not authorized to access this resource. Please login.");
             }
             if (baseApiResponse is null)
-            {
+            { 
                 baseApiResponse = new BaseResponse(false, "", null);
             }
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
             return baseApiResponse;
         }
-        public async Task<BaseResponse> GetUserByIdForUserEdit(string userId)
+        public async Task<BaseResponse> InsertPermission(PermissionDTO request)
         {
-            var response = await _baseApiAdapter.GetUserByIdForUserEdit(userId);
+            var response = await _baseApiAdapter.InsertPermission(request);
             var content = await response.Content.ReadAsStringAsync();
             var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                UserEditDTO res = JsonConvert.DeserializeObject<UserEditDTO>(baseApiResponse.Result.ToString()) ?? new UserEditDTO();
-                baseApiResponse.Result = res;
-
                 return baseApiResponse;
-            }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                throw new UnauthorizedAccessException("You are not authorized to access this resource. Please login.");
-            }
-            if (baseApiResponse is null)
-            {
-                baseApiResponse = new BaseResponse(false, "", null);
             }
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
             return baseApiResponse;
         }
-        public async Task<BaseResponse> UpdateUser(UserUpdateRequest request)
+        public async Task<BaseResponse> UpdatePermission(PermissionDTO request)
         {
-            var response = await _baseApiAdapter.UpdateUser(request);
+            var response = await _baseApiAdapter.UpdatePermission(request);
             var content = await response.Content.ReadAsStringAsync();
             var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
             if (response.StatusCode == HttpStatusCode.OK)

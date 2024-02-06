@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using Classes.Request.UserRequest;
+using Classes.DTO;
 
 namespace Adapters.BaseApi
 {
@@ -73,6 +74,25 @@ namespace Adapters.BaseApi
         {
             request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
             return await _httpClient.PostAsJsonAsync($"{_apiURL}/User/updateUser", request);
+        }
+
+        public async Task<HttpResponseMessage> GetAllPermissions()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Permission/GetAllPermissions");
+        }
+        public async Task<HttpResponseMessage> GetPermissionById(int permissionId)
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Permission/GetPermissionById/{permissionId}");
+        }
+        public async Task<HttpResponseMessage> InsertPermission(PermissionDTO request)
+        {
+            request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Permission/InsertPermission", request);
+        }
+        public async Task<HttpResponseMessage> UpdatePermission(PermissionDTO request)
+        {
+            request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Permission/UpdatePermission", request);
         }
     }
 }

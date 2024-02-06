@@ -1,13 +1,8 @@
-﻿using Classes.DTO;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
+﻿using Classes.Request.UserRequest;
+using Classes.Response.UserResponse;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Services.Response;
-using System.Security.Claims;
-using Classes.Request.UserRequest;
 using Services.UserService;
-using Classes.Response.UserResponse;
 
 namespace UI.Controllers
 {
