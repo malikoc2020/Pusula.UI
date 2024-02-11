@@ -94,5 +94,9 @@ namespace Adapters.BaseApi
             request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
             return await _httpClient.PostAsJsonAsync($"{_apiURL}/Permission/UpdatePermission", request);
         }
+        public async Task<HttpResponseMessage> GetAllPermissionTypes()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Permission/GetAllPermissionTypes");
+        }
     }
 }

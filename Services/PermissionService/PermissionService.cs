@@ -28,7 +28,7 @@ namespace Services.PermissionService
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                List<Permission> users = JsonConvert.DeserializeObject<List<Permission>>(baseApiResponse.Result.ToString()) ?? new List<Permission>();
+                List<PermissionDTO> users = JsonConvert.DeserializeObject<List<PermissionDTO>>(baseApiResponse.Result.ToString()) ?? new List<PermissionDTO>();
                 baseApiResponse.Result = users;
 
                 return baseApiResponse;
@@ -85,6 +85,30 @@ namespace Services.PermissionService
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 return baseApiResponse;
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> GetAllPermissionTypes()
+        {
+            var response = await _baseApiAdapter.GetAllPermissionTypes();
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                List<PermissionTypeDTO> users = JsonConvert.DeserializeObject<List<PermissionTypeDTO>>(baseApiResponse.Result.ToString()) ?? new List<PermissionTypeDTO>();
+                baseApiResponse.Result = users;
+
+                return baseApiResponse;
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to access this resource. Please login.");
+            }
+            if (baseApiResponse is null)
+            {
+                baseApiResponse = new BaseResponse(false, "", null);
             }
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
             return baseApiResponse;

@@ -9,9 +9,24 @@ var Permissions = {
     currentPermissionData: null,
     // You can add other methods as needed
     HandlePermissionCompanents: function () {
+
+
+            $("#startDate").datepicker({
+                dateFormat: "dd/mm/yy"
+            });
+            $("#endDate").datepicker({
+                dateFormat: "dd/mm/yy"
+            });
+
+        $('#mySelect2').select2({
+            placeholder: 'Select a fruit',
+            allowClear: true
+        });
+
+
         getPermissions();
-
-
+        getUsers();
+        getGetAllPermissionTypes();
 
 
         function getPermissions() {
@@ -24,6 +39,83 @@ var Permissions = {
                     // You can call other functions to process and display the data
                     if (response.isSuccess) {
                         setTable(response.result);
+                    } else {
+
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching data: ' + textStatus, errorThrown);
+                }
+            });
+        }
+
+        function getUsers() {
+            $.ajax({
+                url: '/User/GetAllUsers', // Update with the correct endpoint URL
+                method: 'GET',
+                dataType: 'json', // Expecting JSON data
+                success: function (response) {
+                    console.log(response); // Handle your data here
+                    // You can call other functions to process and display the data
+                    if (response.isSuccess) {
+                        console.log("Users : ");
+                        console.log(response.result);
+                        var $select = $("#userId");
+                        response.result.forEach(function (user) {
+                            // Create an option element
+                            var $option = $("<option></option>")
+                                .val(user.id) // Assuming 'id' is the property you want as the option value
+                                .text(user.name + " " + user.surName); // Assuming 'userName' is what you want to display
+
+                            // Append the option to the select element
+                            $select.append($option);
+                        });
+
+                        $select.select2({
+                            placeholder: "Select a user",
+                            allowClear: true,
+                            width: '100%'  // Set the width to 100%
+                        });
+
+
+                    } else {
+
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching data: ' + textStatus, errorThrown);
+                }
+            });
+        }
+        function getGetAllPermissionTypes() {
+            $.ajax({
+                url: '/Permission/GetAllPermissionTypes', // Update with the correct endpoint URL
+                method: 'GET',
+                dataType: 'json', // Expecting JSON data
+                success: function (response) {
+                    console.log(response); // Handle your data here
+                    // You can call other functions to process and display the data
+                    if (response.isSuccess) {
+                        console.log("PermissonTypes : ");
+                        console.log(response.result);
+                        var $select = $("#permissionTypeId");
+                        response.result.forEach(function (user) {
+                            // Create an option element
+                            var $option = $("<option></option>")
+                                .val(user.id) // Assuming 'id' is the property you want as the option value
+                                .text(user.name); // Assuming 'userName' is what you want to display
+
+                            // Append the option to the select element
+                            $select.append($option);
+                        });
+
+                        $select.select2({
+                            placeholder: "Select a permission type",
+                            allowClear: true,
+                            width: '100%'  // Set the width to 100%
+                        });
+
+
                     } else {
 
                     }
@@ -69,10 +161,34 @@ var Permissions = {
                 data: data,
                 columns: [
                     { data: 'id' },
-                    { data: 'userId' },
-                    { data: 'permissionTypeId' },
-                    { data: 'startDate' },
-                    { data: 'endDate' },
+                    { data: 'userName' },
+                    { data: 'permissionTypeName' },
+                    {
+                        data: 'startDate',
+                        render: function (data, type, row) {
+                            if (type === 'display' && data) {
+                                var date = new Date(data);
+                                var day = ("0" + date.getDate()).slice(-2);
+                                var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                                var year = date.getFullYear();
+                                return day + '/' + month + '/' + year;
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        data: 'endDate',
+                        render: function (data, type, row) {
+                            if (type === 'display' && data) {
+                                var date = new Date(data);
+                                var day = ("0" + date.getDate()).slice(-2);
+                                var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                                var year = date.getFullYear();
+                                return day + '/' + month + '/' + year;
+                            }
+                            return data;
+                        }
+                    },
                     {
                         data: null,
                         render: function (data, type, row) {
@@ -91,17 +207,19 @@ var Permissions = {
             console.log("Edit button clicked for permission ID:", permissionId);
             getPermission(permissionId);
         });
+
         $(document).on('click', '.insert', function () {
 
             let permission = {
                 id: 0,
-                userId: 'e3ce9c8c-c9a8-4a69-a784-c6dcc6ab7de5',
-                permissionTypeId: 1,
-                startDate: '2022-10-11',
-                endDate: '2022-10-15'
+                userId: '',
+                permissionTypeId: 0,
+                startDate: '',
+                endDate: ''
             }
-
-            setPermission(permission);
+            console.log(permission);
+            Permissions.currentPermissionData = permission;
+            setPermission(Permissions.currentPermissionData);
             $('#editPermissionModal').modal('show');
         });
 
@@ -110,6 +228,7 @@ var Permissions = {
 
 
         function getPermission(permissionId) {
+            console.log('/Permission/GetPermissionById/' + permissionId);
             $.ajax({
                 url: '/Permission/GetPermissionById/' + permissionId, // Update with the correct endpoint URL
                 method: 'GET',
@@ -122,7 +241,7 @@ var Permissions = {
                         console.log(response);
                         Permissions.currentPermissionData = response.result; // Assign the response to the global variable
                         // Open the modal
-                        setPermission(Permissions.currentPermissionData.permission);
+                        setPermission(Permissions.currentPermissionData);
                         $('#editPermissionModal').modal('show');
                     } else {
                         console.log(response);
@@ -138,22 +257,53 @@ var Permissions = {
                 }
             });
         }
-
+        function isNullOrEmpty(str) {
+            return str === null || str === undefined || str.trim() === "";
+        }
         function setPermission(permission) {
             $("#id").val(permission.id);
-            $("#userId").val(permission.userId);
-            $("#permissionTypeId").val(permission.permissionTypeId);
-            $("#startDate").val(permission.startDate);
-            $("#endDate").val(permission.endDate);
-            //setRoleArea(permissionResponse.allRoles, permission.userRoles);
+            $("#userId").val(permission.userId).trigger('change');
+            $("#permissionTypeId").val(permission.permissionTypeId).trigger('change');
+            var permissionStartDate = permission.startDate;
+            if (!isNullOrEmpty(permissionStartDate)) {
+                var dateStart = new Date(permissionStartDate);
+
+                // Format the date as dd/mm/yyyy
+                var formattedDate = ("0" + dateStart.getDate()).slice(-2) + "/"
+                    + ("0" + (dateStart.getMonth() + 1)).slice(-2) + "/"
+                    + dateStart.getFullYear();
+
+                // Set the formatted date to the input field
+                $("#startDate").val(formattedDate);
+            }
+
+
+
+            var permissionEndDate = permission.endDate;
+            if (!isNullOrEmpty(permissionEndDate)) {
+                var dateEnd = new Date(permissionEndDate);
+
+                // Format the date as dd/mm/yyyy
+                var formattedDateEnd = ("0" + dateEnd.getDate()).slice(-2) + "/"
+                    + ("0" + (dateEnd.getMonth() + 1)).slice(-2) + "/"
+                    + dateEnd.getFullYear();
+
+
+                $("#endDate").val(formattedDateEnd);
+            }
+        }
+
+        function formatToISO(dateStr) {
+            var parts = dateStr.split('/');
+            return parts[2] + '-' + parts[1] + '-' + parts[0];
         }
 
         $('#editPermissionModal').on('click', '#btnPermissionSave', function () {
             let id = $("#id").val();
             let userId = $("#userId").val();
             let permissionTypeId = $("#permissionTypeId").val();
-            let startDate = $("#startDate").val();
-            let endDate = $("#endDate").val();
+            let startDate = formatToISO($("#startDate").val());
+            let endDate = formatToISO($("#endDate").val());
 
             var request = {
                 Id: id,
@@ -175,8 +325,8 @@ var Permissions = {
                 data: JSON.stringify(request), // Convert the JavaScript object to a JSON string
                 success: function (response) {
                     // Handle success
-                    console.log('Update successful', response);
-
+                    console.log('Update successful:');
+                    console.log(response.result);
                     if (response.isSuccess) {
                         getPermissions();
                         $('#editPermissionModal').modal('hide');
@@ -198,7 +348,7 @@ var Permissions = {
 
         });
         $('#editPermissionModal').on('click', '#btnPermissionCancel', function () {
-            setPermission(Permissions.currentPermissionData.permission);
+            setPermission(Permissions.currentPermissionData);
         });
 
         $('#editPermissionModal').on('hidden.bs.modal', function (e) {

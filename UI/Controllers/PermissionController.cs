@@ -24,7 +24,7 @@ namespace UI.Controllers
             var res = await _permissionService.GetAllPermissions();
             return Json(res);
         }
-        [HttpGet("permission/GetPermissionById/{userId}")]
+        [HttpGet("permission/GetPermissionById/{permissionId}")]
         public async Task<IActionResult> GetPermissionById(int permissionId)
         {
             var res = await _permissionService.GetPermissionById(permissionId);
@@ -40,6 +40,12 @@ namespace UI.Controllers
         public async Task<IActionResult> UpdatePermission([FromBody] PermissionDTO request)
         {
             var res = await _permissionService.UpdatePermission(request);
+            return Json(res);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllPermissionTypes()
+        {
+            var res = await _permissionService.GetAllPermissionTypes();
             return Json(res);
         }
     }

@@ -1,7 +1,6 @@
 ﻿using Classes.DTO;
 using Classes.Request.AuthenticationRequest;
 using Classes.Request.UserRequest;
-using Services.Response;
 
 namespace Adapters.BaseApi
 {
@@ -19,5 +18,6 @@ namespace Adapters.BaseApi
         Task<HttpResponseMessage> GetPermissionById(int permissionId);
         Task<HttpResponseMessage> InsertPermission(PermissionDTO request);
         Task<HttpResponseMessage> UpdatePermission(PermissionDTO request);
+        Task<HttpResponseMessage> GetAllPermissionTypes();
     }
 }

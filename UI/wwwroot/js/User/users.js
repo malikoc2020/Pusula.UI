@@ -9,6 +9,11 @@ var Users = {
     currentUserData: null,
     // You can add other methods as needed
     HandleUserCompanents: function () {
+
+        $("#dateOfStart").datepicker({
+            dateFormat: "dd/mm/yy"
+        });
+
         getUsers();
 
 
@@ -125,7 +130,13 @@ var Users = {
                 }
             });
         }
-
+        function isNullOrEmpty(str) {
+            return str === null || str === undefined || str.trim() === "";
+        }
+        function formatToISO(dateStr) {
+            var parts = dateStr.split('/');
+            return parts[2] + '-' + parts[1] + '-' + parts[0];
+        }
         function setUser(userResponse) {
             var user = userResponse.user;
 
@@ -134,6 +145,18 @@ var Users = {
             $("#surName").val(user.surName);
             $("#email").val(user.email);
             $("#phoneNumber").val(user.phoneNumber);
+            if (isNullOrEmpty(user.dateOfStart)) {
+                var userDateOfStart = user.dateOfStart;
+                var dateStart = new Date(userDateOfStart);
+
+                // Format the date as dd/mm/yyyy
+                var formattedDate = ("0" + dateStart.getDate()).slice(-2) + "/"
+                    + ("0" + (dateStart.getMonth() + 1)).slice(-2) + "/"
+                    + dateStart.getFullYear();
+
+                // Set the formatted date to the input field
+                $("#dateOfStart").val(formattedDate);
+            }
             setRoleArea(userResponse.allRoles, user.userRoles);
         }
 
@@ -149,6 +172,7 @@ var Users = {
                     userRoles.push($(this).val());
                 }
             });
+            let dateOfStart = formatToISO($("#dateOfStart").val());
 
             var request = {
                 Id: id,
@@ -156,7 +180,8 @@ var Users = {
                 SurName: surName,
                 Email: email,
                 PhoneNumber: phoneNumber,
-                UserRoles: userRoles
+                UserRoles: userRoles,
+                DateOfStart: dateOfStart
             }
             console.log(request);
             $.ajax({
