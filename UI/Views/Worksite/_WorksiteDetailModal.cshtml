@@ -1,0 +1,120 @@
+﻿    <!-- The Modal -->
+<div class="modal" id="editWorksiteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Worksites</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Worksite Detail</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <br />
+                                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                                    <input type="hidden" id="id" name="id" value="">
+
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">
+                                            Name <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="name" required="required" class="form-control ">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="description">
+                                            Description <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="description" required="required" class="form-control ">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="ilId">
+                                            Province <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="ilId" class="form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="ilceId">
+                                            District <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="ilceId" class="form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    @*                                     <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="userId">
+                                            User <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="userId" class="form-control">
+                                            </select>
+                                        </div>
+                                    </div> *@
+@*                                     <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="permissionTypeId">
+                                            Permission Type <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="permissionTypeId" class="form-control">
+                                            </select>
+                                        </div>
+                                    </div> *@
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="startDate">
+                                            Start Date <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="startDate" required="required" class="form-control ">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="endDate">
+                                            End Date <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="endDate" required="required" class="form-control ">
+                                        </div>
+                                    </div>
+
+                                    <div class="ln_solid"></div>
+                                    <div class="item form-group">
+                                        <div class="col-md-6 col-sm-6 offset-md-3">
+                                            <button class="btn btn-primary" type="button" id="btnWorksiteCancel">Cancel</button>
+                                            <button type="button" class="btn btn-success" id="btnWorksiteSave">Save</button>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
