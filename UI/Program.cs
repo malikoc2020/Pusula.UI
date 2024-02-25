@@ -1,9 +1,11 @@
 using Adapters.BaseApi;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Services.AuthenticationService;
+using Services.CommonService;
 using Services.MiddleWares;
 using Services.PermissionService;
 using Services.UserService;
+using Services.WorksiteService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,8 @@ builder.Services.AddScoped<IBaseApiAdapter, BaseApiAdapter>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
+builder.Services.AddScoped<IWorksiteService, WorksiteService>();
+builder.Services.AddScoped<ICommonService, CommonService>();
 
 
 var app = builder.Build();

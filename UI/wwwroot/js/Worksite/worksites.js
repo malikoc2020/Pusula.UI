@@ -111,17 +111,20 @@ var Worksites = {
 
         function setDistricts() {
             let provinceId = $('#ilId').val();
+            let $select = $("#ilceId");
             if (provinceId === null || provinceId.trim() === '') {
                 // The value is null or empty
+                $select.empty();
                 console.log('provinceId is null or empty');
             } else {
 
                                 
                 let filteredDistricts = Worksites.districts.filter(function (district) {
-                    return district.ilId === provinceId;
+                    return district.ilId == provinceId;
                 });
 
-                var $select = $("#ilceId");
+                //var $select = $("#ilceId");
+                $select.empty();
                 filteredDistricts.forEach(function (district) {
                     // Create an option element
                     var $option = $("<option></option>")
@@ -331,7 +334,7 @@ var Worksites = {
             var request = {
                 Id: id,
                 Name: name, 
-                Description = description,
+                Description: description,
                 ilId: ilId,
                 ilceId: ilceId,
                 StartDate: startDate,
