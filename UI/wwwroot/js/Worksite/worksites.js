@@ -299,6 +299,8 @@ var Worksites = {
 
                 // Set the formatted date to the input field
                 $("#startDate").val(formattedDate);
+            } else {
+                $("#startDate").val('');
             }
 
 
@@ -314,6 +316,9 @@ var Worksites = {
 
 
                 $("#endDate").val(formattedDateEnd);
+            } else {
+                $("#endDate").val('');
+
             }
         }
 

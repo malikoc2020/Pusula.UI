@@ -275,6 +275,8 @@ var Permissions = {
 
                 // Set the formatted date to the input field
                 $("#startDate").val(formattedDate);
+            } else {
+                $("#startDate").val('');
             }
 
 
@@ -290,6 +292,8 @@ var Permissions = {
 
 
                 $("#endDate").val(formattedDateEnd);
+            } else {
+                $("#endDate").val('');
             }
         }
 
