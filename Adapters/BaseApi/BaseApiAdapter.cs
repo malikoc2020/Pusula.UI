@@ -125,5 +125,16 @@ namespace Adapters.BaseApi
             return await _httpClient.GetAsync($"{_apiURL}/Worksite/GetAllWorksiteWorkerTypes");
         }
         #endregion
+
+        #region Worksite
+        public async Task<HttpResponseMessage> GetAllProvinces()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Common/GetAllProvinces");
+        }
+        public async Task<HttpResponseMessage> GetAllDistricts()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Common/GetAllDistricts");
+        }
+        #endregion
     }
 }
