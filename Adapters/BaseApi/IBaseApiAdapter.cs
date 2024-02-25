@@ -19,5 +19,10 @@ namespace Adapters.BaseApi
         Task<HttpResponseMessage> InsertPermission(PermissionDTO request);
         Task<HttpResponseMessage> UpdatePermission(PermissionDTO request);
         Task<HttpResponseMessage> GetAllPermissionTypes();
+        Task<HttpResponseMessage> GetAllWorksites();
+        Task<HttpResponseMessage> GetWorksiteById(int worksiteId);
+        Task<HttpResponseMessage> InsertWorksite(WorksiteDTO request);
+        Task<HttpResponseMessage> UpdateWorksite(WorksiteDTO request);
+        Task<HttpResponseMessage> GetAllWorksiteWorkerTypes();
     }
 }

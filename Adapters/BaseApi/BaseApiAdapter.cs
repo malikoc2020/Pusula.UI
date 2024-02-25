@@ -68,14 +68,15 @@ namespace Adapters.BaseApi
             string phoneNumber = GetClaimByType(_httpContextAccessor, ClaimTypes.MobilePhone);
             return await _httpClient.GetAsync($"{_apiURL}/User/sendVerifyCode/{phoneNumber}");
         }
-        #endregion
 
         public async Task<HttpResponseMessage> UpdateUser(UserUpdateRequest request)
         {
             request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
             return await _httpClient.PostAsJsonAsync($"{_apiURL}/User/updateUser", request);
         }
+        #endregion
 
+        #region Permission
         public async Task<HttpResponseMessage> GetAllPermissions()
         {
             return await _httpClient.GetAsync($"{_apiURL}/Permission/GetAllPermissions");
@@ -98,5 +99,31 @@ namespace Adapters.BaseApi
         {
             return await _httpClient.GetAsync($"{_apiURL}/Permission/GetAllPermissionTypes");
         }
+        #endregion
+
+        #region Worksite
+        public async Task<HttpResponseMessage> GetAllWorksites()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Worksite/GetAllWorksites");
+        }
+        public async Task<HttpResponseMessage> GetWorksiteById(int worksiteId)
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Worksite/GetWorksiteById/{worksiteId}");
+        }
+        public async Task<HttpResponseMessage> InsertWorksite(WorksiteDTO request)
+        {
+            request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Worksite/InsertWorksite", request);
+        }
+        public async Task<HttpResponseMessage> UpdateWorksite(WorksiteDTO request)
+        {
+            request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Worksite/UpdateWorksite", request);
+        }
+        public async Task<HttpResponseMessage> GetAllWorksiteWorkerTypes()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Worksite/GetAllWorksiteWorkerTypes");
+        }
+        #endregion
     }
 }
