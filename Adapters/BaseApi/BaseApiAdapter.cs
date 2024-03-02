@@ -124,6 +124,10 @@ namespace Adapters.BaseApi
         {
             return await _httpClient.GetAsync($"{_apiURL}/Worksite/GetAllWorksiteWorkerTypes");
         }
+        public async Task<HttpResponseMessage> GetWorksiteWorkersById(int worksiteId)
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Worksite/GetWorksiteWorkersById/{worksiteId}");
+        }
         #endregion
 
         #region Worksite

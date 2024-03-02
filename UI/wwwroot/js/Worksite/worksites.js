@@ -5,7 +5,8 @@ var Worksites = {
         this.HandleWorksiteCompanents();
     },
     currentWorksiteData: null,
-    districts:null,
+    districts: null,
+    currentWorksiteWorkersData: null,
     // You can add other methods as needed
     HandleWorksiteCompanents: function () {
 
@@ -212,6 +213,13 @@ var Worksites = {
                     {
                         data: null,
                         render: function (data, type, row) {
+                            return '<button type="button" class="btn btn-info btn-sm workers" data-id="' + row.id + '" data-row="' + row.row + '"> Workers </button>';
+                        },
+                        orderable: false
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
                             return '<button type="button" class="btn btn-success btn-sm edit" data-id="' + row.id + '" data-row="' + row.row + '"> Edit </button>';
                         },
                         orderable: false
@@ -226,6 +234,11 @@ var Worksites = {
             var worksiteId = $(this).data('id');
             console.log("Edit button clicked for worksite ID:", worksiteId);
             getWorksite(worksiteId);
+        });
+
+        $('#datatable-buttons').on('click', '.workers', function () {
+            var worksiteId = $(this).data('id');
+            getWorksiteWorkers(worksiteId);
         });
 
         $(document).on('click', '.insert', function () {
@@ -278,6 +291,38 @@ var Worksites = {
                 }
             });
         }
+
+        function getWorksiteWorkers(worksiteId) {
+            console.log('/Worksite/GetWorksiteWorkersById/' + worksiteId);
+            $.ajax({
+                url: '/Worksite/GetWorksiteWorkersById/' + worksiteId, // Update with the correct endpoint URL
+                method: 'GET',
+                dataType: 'json', // Expecting JSON data
+                success: function (response) {
+                    console.log(response); // Handle your data here
+                    // You can call other functions to process and display the data
+                    if (response.isSuccess) {
+                        console.log("worksiteworkers data : ");
+                        console.log(response);
+                        Worksites.currentWorksiteWorkersData = response.result; // Assign the response to the global variable
+                        // Open the modal
+                        setWorksiteWorkers(Worksites.currentWorksiteWorkersData);
+                        $('#editWorksiteWorkersModal').modal('show');
+                    } else {
+                        console.log(response);
+                        // Show error toast here
+                        toastr.error('Error occurred: ' + response.errorMessage);
+
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching data: ' + textStatus, errorThrown);
+                    // Show error toast instead of logging to console
+                    toastr.error('Error fetching data: ' + textStatus + ', ' + errorThrown);
+                }
+            });
+        }
+
         function isNullOrEmpty(str) {
             return str === null || str === undefined || str.trim() === "";
         }
@@ -325,6 +370,47 @@ var Worksites = {
         function formatToISO(dateStr) {
             var parts = dateStr.split('/');
             return parts[2] + '-' + parts[1] + '-' + parts[0];
+        }
+
+        function setWorksiteWorkers(worksiteWorkers) {
+            //$("#id").val(worksite.id);
+            //$("#name").val(worksite.name);
+            //$("#description").val(worksite.description);
+            //$("#ilId").val(worksite.ilId).trigger('change');
+            //setDistricts();
+            //$("#ilceId").val(worksite.ilceId).trigger('change');
+            //var worksiteStartDate = worksite.startDate;
+            //if (!isNullOrEmpty(worksiteStartDate)) {
+            //    var dateStart = new Date(worksiteStartDate);
+
+            //    // Format the date as dd/mm/yyyy
+            //    var formattedDate = ("0" + dateStart.getDate()).slice(-2) + "/"
+            //        + ("0" + (dateStart.getMonth() + 1)).slice(-2) + "/"
+            //        + dateStart.getFullYear();
+
+            //    // Set the formatted date to the input field
+            //    $("#startDate").val(formattedDate);
+            //} else {
+            //    $("#startDate").val('');
+            //}
+
+
+
+            //var worksiteEndDate = worksite.endDate;
+            //if (!isNullOrEmpty(worksiteEndDate)) {
+            //    var dateEnd = new Date(worksiteEndDate);
+
+            //    // Format the date as dd/mm/yyyy
+            //    var formattedDateEnd = ("0" + dateEnd.getDate()).slice(-2) + "/"
+            //        + ("0" + (dateEnd.getMonth() + 1)).slice(-2) + "/"
+            //        + dateEnd.getFullYear();
+
+
+            //    $("#endDate").val(formattedDateEnd);
+            //} else {
+            //    $("#endDate").val('');
+
+            //}
         }
 
         $('#editWorksiteModal').on('click', '#btnWorksiteSave', function () {

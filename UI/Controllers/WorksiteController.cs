@@ -42,6 +42,12 @@ namespace UI.Controllers
             var res = await _worksiteService.UpdateWorksite(request);
             return Json(res);
         }
+        [HttpGet("worksite/GetWorksiteWorkersById/{worksiteId}")]
+        public async Task<IActionResult> GetWorksiteWorkersById(int worksiteId)
+        {
+            var res = await _worksiteService.GetWorksiteWorkersById(worksiteId);
+            return Json(res);
+        }
         [HttpGet]
         public async Task<IActionResult> GetAllWorksiteWorkerTypes()
         {

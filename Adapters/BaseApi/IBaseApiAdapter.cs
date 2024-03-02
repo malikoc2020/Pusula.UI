@@ -24,6 +24,7 @@ namespace Adapters.BaseApi
         Task<HttpResponseMessage> InsertWorksite(WorksiteDTO request);
         Task<HttpResponseMessage> UpdateWorksite(WorksiteDTO request);
         Task<HttpResponseMessage> GetAllWorksiteWorkerTypes();
+        Task<HttpResponseMessage> GetWorksiteWorkersById(int worksiteId);
         Task<HttpResponseMessage> GetAllProvinces();
         Task<HttpResponseMessage> GetAllDistricts();
     }
