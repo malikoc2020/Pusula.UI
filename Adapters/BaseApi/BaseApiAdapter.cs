@@ -128,6 +128,21 @@ namespace Adapters.BaseApi
         {
             return await _httpClient.GetAsync($"{_apiURL}/Worksite/GetWorksiteWorkersById/{worksiteId}");
         }
+        public async Task<HttpResponseMessage> InsertWorksiteWorker(WorksiteWorkerDTO request)
+        {
+            request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Worksite/InsertWorksiteWorker", request);
+        }
+        public async Task<HttpResponseMessage> UpdateWorksiteWorker(WorksiteWorkerDTO request)
+        {
+            request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Worksite/UpdateWorksiteWorker", request);
+        }
+        public async Task<HttpResponseMessage> DeleteWorksiteWorker(int worksiteWorkerId)
+        {
+            //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.DeleteAsync($"{_apiURL}/Worksite/UpdateWorksiteWorker/{worksiteWorkerId}");
+        }
         #endregion
 
         #region Worksite

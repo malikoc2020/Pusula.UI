@@ -11,5 +11,8 @@ namespace Services.WorksiteService
         Task<BaseResponse> UpdateWorksite(WorksiteDTO request);
         Task<BaseResponse> GetAllWorksiteWorkerTypes();
         Task<BaseResponse> GetWorksiteWorkersById(int worksiteId);
+        Task<BaseResponse> InsertWorksiteWorker(WorksiteWorkerDTO request);
+        Task<BaseResponse> UpdateWorksiteWorker(WorksiteWorkerDTO request);
+        Task<BaseResponse> DeleteWorksiteWorker(int worksiteWorkerId);
     }
 }

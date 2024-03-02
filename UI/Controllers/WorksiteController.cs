@@ -48,6 +48,24 @@ namespace UI.Controllers
             var res = await _worksiteService.GetWorksiteWorkersById(worksiteId);
             return Json(res);
         }
+        [HttpPost]
+        public async Task<IActionResult> InsertWorksiteWorker([FromBody] WorksiteWorkerDTO request)
+        {
+            var res = await _worksiteService.InsertWorksiteWorker(request);
+            return Json(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateWorksiteWorker([FromBody] WorksiteWorkerDTO request)
+        {
+            var res = await _worksiteService.UpdateWorksiteWorker(request);
+            return Json(res);
+        }
+        [HttpDelete("worksite/DeleteWorksiteWorker/{worksiteWorkerId}")]
+        public async Task<IActionResult> DeleteWorksiteWorker([FromBody] int worksiteWorkerId)
+        {
+            var res = await _worksiteService.DeleteWorksiteWorker(worksiteWorkerId);
+            return Json(res);
+        }
         [HttpGet]
         public async Task<IActionResult> GetAllWorksiteWorkerTypes()
         {

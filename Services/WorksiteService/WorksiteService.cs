@@ -118,7 +118,7 @@ namespace Services.WorksiteService
             var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                WorksiteDTO worksite = JsonConvert.DeserializeObject<WorksiteDTO>(baseApiResponse.Result.ToString()) ?? new WorksiteDTO();
+                List<WorksiteWorkerDTO> worksite = JsonConvert.DeserializeObject<List<WorksiteWorkerDTO>>(baseApiResponse.Result.ToString()) ?? new List<WorksiteWorkerDTO>();
                 baseApiResponse.Result = worksite;
 
                 return baseApiResponse;
@@ -130,6 +130,42 @@ namespace Services.WorksiteService
             if (baseApiResponse is null)
             {
                 baseApiResponse = new BaseResponse(false, "", null);
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> InsertWorksiteWorker(WorksiteWorkerDTO request)
+        {
+            var response = await _baseApiAdapter.InsertWorksiteWorker(request);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return baseApiResponse;
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> UpdateWorksiteWorker(WorksiteWorkerDTO request)
+        {
+            var response = await _baseApiAdapter.UpdateWorksiteWorker(request);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return baseApiResponse;
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> DeleteWorksiteWorker(int worksiteWorkerId)
+        {
+            var response = await _baseApiAdapter.DeleteWorksiteWorker(worksiteWorkerId);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return baseApiResponse;
             }
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
             return baseApiResponse;
