@@ -221,14 +221,14 @@ var Worksites = {
                     {
                         data: null,
                         render: function (data, type, row) {
-                            return '<button type="button" class="btn btn-info btn-sm workers" data-id="' + row.id + '" data-row="' + row.row + '"> Workers </button>';
+                            return '<button type="button" class="btn btn-info btn-sm workers" data-id="' + row.id + '" data-row="' + row + '"> Workers </button>';
                         },
                         orderable: false
                     },
                     {
                         data: null,
                         render: function (data, type, row) {
-                            return '<button type="button" class="btn btn-success btn-sm edit" data-id="' + row.id + '" data-row="' + row.row + '"> Edit </button>';
+                            return '<button type="button" class="btn btn-success btn-sm edit" data-id="' + row.id + '" data-row="' + row + '"> Edit </button>';
                         },
                         orderable: false
                     }
@@ -237,7 +237,9 @@ var Worksites = {
 
             });
         }
-        function setTableWorksiteWorkers(data) {
+        function setTableWorksiteWorkers(data, worksiteId) {
+
+            $('.insertWorker').data('worksiteId', worksiteId);            
 
             // Check if the DataTable instance exists and destroy it
             if ($.fn.DataTable.isDataTable("#datatable-worksiteworkers")) {
@@ -303,7 +305,9 @@ var Worksites = {
                     {
                         data: null,
                         render: function (data, type, row) {
-                            return '<button type="button" class="btn btn-success btn-sm editWorksiteWorker" data-id="' + row.id + '" data-row="' + row.row + '"> Edit </button>';
+                            //return '<button type="button" class="btn btn-success btn-sm editWorksiteWorker" data-id="' + row.id + '" data-row="' + row + ' data-worksiteId="' + worksiteId + '""> Edit </button>';
+                            return `<button type="button" class="btn btn-success btn-sm editWorksiteWorker" data-id=${row.id} data-row=${row} data-worksiteId=${worksiteId}> Edit </button>
+                            <button type="button" class="btn btn-danger btn-sm deleteWorksiteWorker" data-id=${row.id}> Delete </button>`;
                         },
                         orderable: false
                     }
@@ -323,6 +327,18 @@ var Worksites = {
             getWorksiteWorkers(worksiteId);
         });
 
+        $('#datatable-worksiteworkers').on('click', '.editWorksiteWorker', function () {
+            let worksiteWorkerId = $(this).data('id');
+            getWorksiteWorker(worksiteWorkerId);
+        });
+        $('#datatable-worksiteworkers').on('click', '.deleteWorksiteWorker', function () {
+            var confirmation = confirm("Are you sure you want to delete this Worker from Workersite?");
+            if (confirmation) {
+                let worksiteWorkerId = $(this).data('id');
+                var row = $(this).closest('tr');
+                deleteWorksiteWorker(worksiteWorkerId, row);
+            }
+        });
         $(document).on('click', '.insert', function () {
 
             let worksite = {
@@ -340,9 +356,12 @@ var Worksites = {
         });
 
         $(document).on('click', '.insertWorker', function () {
+            
+            let worksiteId = $(this).data('worksiteId');
 
             let worksiteWorker = {
                 id: 0,
+                worksiteId: worksiteId,
                 userId: '',
                 worksiteWorkerTypeId: '',
                 startDate: '',
@@ -385,11 +404,64 @@ var Worksites = {
                 }
             });
         }
-
-        function getWorksiteWorkers(worksiteId) {
-            console.log('/Worksite/GetWorksiteWorkersById/' + worksiteId);
+        function getWorksiteWorker(worksiteWorkerId) {
+            console.log('/Worksite/GetWorksiteWorkerById/' + worksiteWorkerId);
             $.ajax({
-                url: '/Worksite/GetWorksiteWorkersById/' + worksiteId, // Update with the correct endpoint URL
+                url: '/Worksite/GetWorksiteWorkerById/' + worksiteWorkerId, // Update with the correct endpoint URL
+                method: 'GET',
+                dataType: 'json', // Expecting JSON data
+                success: function (response) {
+                    console.log(response); // Handle your data here
+                    // You can call other functions to process and display the data
+                    if (response.isSuccess) {
+                        console.log("worksiteworker data : ");
+                        console.log(response);
+                        Worksites.currentWorksiteWorkerData = response.result; // Assign the response to the global variable
+                        // Open the modal
+                        setWorksiteWorker(Worksites.currentWorksiteWorkerData);
+                        $('#editWorksiteWorkerModal').modal('show');
+                    } else {
+                        console.log(response);
+                        // Show error toast here
+                        toastr.error('Error occurred: ' + response.errorMessage);
+
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching data: ' + textStatus, errorThrown);
+                    // Show error toast instead of logging to console
+                    toastr.error('Error fetching data: ' + textStatus + ', ' + errorThrown);
+                }
+            });
+        }
+        function deleteWorksiteWorker(worksiteWorkerId, row) {
+            $.ajax({
+                url: '/Worksite/DeleteWorksiteWorker/' + worksiteWorkerId, // Update with the correct endpoint URL
+                method: 'DELETE',
+                dataType: 'json', // Expecting JSON data
+                success: function (response) {
+                    console.log(response); // Handle your data here
+                    // You can call other functions to process and display the data
+                    if (response.isSuccess) {
+                        $('#datatable-worksiteworkers').DataTable().row(row).remove().draw();
+                    } else {
+                        console.log(response);
+                        // Show error toast here
+                        toastr.error('Error occurred: ' + response.errorMessage);
+
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching data: ' + textStatus, errorThrown);
+                    // Show error toast instead of logging to console
+                    toastr.error('Error fetching data: ' + textStatus + ', ' + errorThrown);
+                }
+            });
+        }
+        function getWorksiteWorkers(worksiteId) {
+            console.log('/Worksite/GetWorksiteWorkersByWorksiteId/' + worksiteId);
+            $.ajax({
+                url: '/Worksite/GetWorksiteWorkersByWorksiteId/' + worksiteId, // Update with the correct endpoint URL
                 method: 'GET',
                 dataType: 'json', // Expecting JSON data
                 success: function (response) {
@@ -400,7 +472,7 @@ var Worksites = {
                         console.log(response);
                         Worksites.currentWorksiteWorkersData = response.result; // Assign the response to the global variable
                         // Open the modal
-                        setTableWorksiteWorkers(Worksites.currentWorksiteWorkersData);
+                        setTableWorksiteWorkers(Worksites.currentWorksiteWorkersData, worksiteId);
                         $('#worksiteWorkersModal').modal('show');
                     } else {
                         console.log(response);
@@ -462,8 +534,7 @@ var Worksites = {
         }
         function setWorksiteWorker(worksiteWorker) {
             $("#idWorker").val(worksiteWorker.id);
-            //$("#userIdWorker").val(worksiteWorker.userId);
-            //$("#worksiteWorkerTypeId").val(worksiteWorker.worksiteWorkerTypeId);
+            $("#worksiteIdForWorker").val(worksiteWorker.worksiteId);
             $("#userId").val(worksiteWorker.userId).trigger('change');
             $("#worksiteWorkerTypeId").val(worksiteWorker.worksiteWorkerTypeId).trigger('change');
 
@@ -637,6 +708,9 @@ var Worksites = {
         $('#editWorksiteModal').on('click', '#btnWorksiteCancel', function () {
             setWorksite(Worksites.currentWorksiteData);
         });
+        $('#editWorksiteWorkerModal').on('click', '#btnWorksiteWorkerCancel', function () {
+            setWorksiteWorker(Worksites.currentWorksiteWorkerData);
+        });
 
         $('#editWorksiteModal').on('hidden.bs.modal', function (e) {
             // If you need to reset the global variable or perform other cleanup tasks, do it here
@@ -646,6 +720,58 @@ var Worksites = {
         // Event listener for change event
         $('#ilId').on('change', function () {
             setDistricts();
+        });
+
+        $('#editWorksiteWorkerModal').on('click', '#btnWorksiteWorkerSave', function () {
+            let id = $("#idWorker").val();
+            let worksiteId = $("#worksiteIdForWorker").val();
+            let userId = $("#userId").val();
+            let worksiteWorkerTypeId = $("#worksiteWorkerTypeId").val();   
+            let startDate = formatToISO($("#startDateWorker").val());
+            let endDate = formatToISO($("#endDateWorker").val());
+
+            var request = {
+                Id: id,
+                WorksiteId: worksiteId,
+                UserId: userId,
+                WorksiteWorkerTypeId: worksiteWorkerTypeId,
+                StartDate: startDate,
+                EndDate: endDate
+            }
+            console.log("Edit Request : ");
+            console.log(request);
+            let URL = '/Worksite/UpdateWorksiteWorker';
+            if (request.Id == 0) {
+                URL = '/Worksite/InsertWorksiteWorker';
+            }
+            $.ajax({
+                url: URL, // Update with the correct endpoint URL
+                method: 'POST',
+                contentType: 'application/json', // Specify the content type
+                data: JSON.stringify(request), // Convert the JavaScript object to a JSON string
+                success: function (response) {
+                    // Handle success
+                    console.log('Update successful:');
+                    console.log(response.result);
+                    if (response.isSuccess) {
+                        getWorksiteWorkers(worksiteId);
+                        $('#editWorksiteWorkerModal').modal('hide');
+                    } else {
+                        console.log(response);
+                        // Show error toast here
+                        toastr.error('Error occurred: ' + response.errorMessage);
+
+                    }
+
+                    // You might want to close the modal or refresh the page here
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Handle error
+                    console.error('Error updating worksite: ' + textStatus, errorThrown);
+                    toastr.error('Error fetching data: ' + textStatus + ', ' + errorThrown);
+                }
+            });
+
         });
     },
 };

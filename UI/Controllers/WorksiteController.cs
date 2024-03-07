@@ -42,10 +42,16 @@ namespace UI.Controllers
             var res = await _worksiteService.UpdateWorksite(request);
             return Json(res);
         }
-        [HttpGet("worksite/GetWorksiteWorkersById/{worksiteId}")]
-        public async Task<IActionResult> GetWorksiteWorkersById(int worksiteId)
+        [HttpGet("worksite/GetWorksiteWorkerById/{id}")]
+        public async Task<IActionResult> GetWorksiteWorkerById(int id)
         {
-            var res = await _worksiteService.GetWorksiteWorkersById(worksiteId);
+            var res = await _worksiteService.GetWorksiteWorkerById(id);
+            return Json(res);
+        }
+        [HttpGet("worksite/GetWorksiteWorkersByWorksiteId/{worksiteId}")]
+        public async Task<IActionResult> GetWorksiteWorkersByWorksiteId(int worksiteId)
+        {
+            var res = await _worksiteService.GetWorksiteWorkersByWorksiteId(worksiteId);
             return Json(res);
         }
         [HttpPost]
@@ -61,7 +67,7 @@ namespace UI.Controllers
             return Json(res);
         }
         [HttpDelete("worksite/DeleteWorksiteWorker/{worksiteWorkerId}")]
-        public async Task<IActionResult> DeleteWorksiteWorker([FromBody] int worksiteWorkerId)
+        public async Task<IActionResult> DeleteWorksiteWorker(int worksiteWorkerId)
         {
             var res = await _worksiteService.DeleteWorksiteWorker(worksiteWorkerId);
             return Json(res);

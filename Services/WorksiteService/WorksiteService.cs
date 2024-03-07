@@ -111,9 +111,32 @@ namespace Services.WorksiteService
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
             return baseApiResponse;
         }
-        public async Task<BaseResponse> GetWorksiteWorkersById(int worksiteId)
+        public async Task<BaseResponse> GetWorksiteWorkerById(int id)
         {
-            var response = await _baseApiAdapter.GetWorksiteWorkersById(worksiteId);
+            var response = await _baseApiAdapter.GetWorksiteWorkerById(id);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                WorksiteWorkerDTO worksite = JsonConvert.DeserializeObject<WorksiteWorkerDTO>(baseApiResponse.Result.ToString()) ?? new WorksiteWorkerDTO();
+                baseApiResponse.Result = worksite;
+
+                return baseApiResponse;
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to access this resource. Please login.");
+            }
+            if (baseApiResponse is null)
+            {
+                baseApiResponse = new BaseResponse(false, "", null);
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> GetWorksiteWorkersByWorksiteId(int worksiteId)
+        {
+            var response = await _baseApiAdapter.GetWorksiteWorkersByWorksiteId(worksiteId);
             var content = await response.Content.ReadAsStringAsync();
             var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
             if (response.StatusCode == HttpStatusCode.OK)
@@ -167,7 +190,7 @@ namespace Services.WorksiteService
             {
                 return baseApiResponse;
             }
-            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse?.Message}";
             return baseApiResponse;
         }
     }
