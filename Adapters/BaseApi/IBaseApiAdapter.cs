@@ -23,13 +23,19 @@ namespace Adapters.BaseApi
         Task<HttpResponseMessage> GetWorksiteById(int worksiteId);
         Task<HttpResponseMessage> InsertWorksite(WorksiteDTO request);
         Task<HttpResponseMessage> UpdateWorksite(WorksiteDTO request);
+        Task<HttpResponseMessage> GetAllProvinces();
+        Task<HttpResponseMessage> GetAllDistricts();
         Task<HttpResponseMessage> GetAllWorksiteWorkerTypes();
         Task<HttpResponseMessage> GetWorksiteWorkerById(int id);
         Task<HttpResponseMessage> GetWorksiteWorkersByWorksiteId(int worksiteId);
         Task<HttpResponseMessage> InsertWorksiteWorker(WorksiteWorkerDTO request);
         Task<HttpResponseMessage> UpdateWorksiteWorker(WorksiteWorkerDTO request);
         Task<HttpResponseMessage> DeleteWorksiteWorker(int worksiteWorkerId);
-        Task<HttpResponseMessage> GetAllProvinces();
-        Task<HttpResponseMessage> GetAllDistricts();
+        Task<HttpResponseMessage> GetAllWorksiteActionTypes();
+        Task<HttpResponseMessage> GetWorksiteActionById(int id);
+        Task<HttpResponseMessage> GetWorksiteActionsByWorksiteId(int worksiteId);
+        Task<HttpResponseMessage> InsertWorksiteAction(WorksiteActionDTO request);
+        Task<HttpResponseMessage> UpdateWorksiteAction(WorksiteActionDTO request);
+        Task<HttpResponseMessage> DeleteWorksiteAction(int worksiteActionId);
     }
 }

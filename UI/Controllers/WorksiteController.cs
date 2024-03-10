@@ -78,5 +78,43 @@ namespace UI.Controllers
             var res = await _worksiteService.GetAllWorksiteWorkerTypes();
             return Json(res);
         }
+
+
+        [HttpGet("worksite/GetWorksiteActionById/{id}")]
+        public async Task<IActionResult> GetWorksiteActionById(int id)
+        {
+            var res = await _worksiteService.GetWorksiteActionById(id);
+            return Json(res);
+        }
+        [HttpGet("worksite/GetWorksiteActionsByWorksiteId/{worksiteId}")]
+        public async Task<IActionResult> GetWorksiteActionsByWorksiteId(int worksiteId)
+        {
+            var res = await _worksiteService.GetWorksiteActionsByWorksiteId(worksiteId);
+            return Json(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> InsertWorksiteAction([FromBody] WorksiteActionDTO request)
+        {
+            var res = await _worksiteService.InsertWorksiteAction(request);
+            return Json(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateWorksiteAction([FromBody] WorksiteActionDTO request)
+        {
+            var res = await _worksiteService.UpdateWorksiteAction(request);
+            return Json(res);
+        }
+        [HttpDelete("worksite/DeleteWorksiteAction/{worksiteActionId}")]
+        public async Task<IActionResult> DeleteWorksiteAction(int worksiteActionId)
+        {
+            var res = await _worksiteService.DeleteWorksiteAction(worksiteActionId);
+            return Json(res);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllWorksiteActionTypes()
+        {
+            var res = await _worksiteService.GetAllWorksiteActionTypes();
+            return Json(res);
+        }
     }
 }

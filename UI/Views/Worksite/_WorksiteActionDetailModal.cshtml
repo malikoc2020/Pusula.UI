@@ -1,0 +1,85 @@
+﻿    <!-- The Modal -->
+<div class="modal" id="editWorksiteActionModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Worksite Action</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Worksite Action Detail</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <br />
+                                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                                    <input type="hidden" id="idAction" name="idAction" value="">
+                                    <input type="hidden" id="worksiteIdForAction" name="worksiteIdForAction" value="">
+
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="worksiteActionTypeId">
+                                            Action Type <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            @* <input type="text" id="permissionTypeId" name="last-name" required="required" class="form-control"> *@
+                                            <select id="worksiteActionTypeId" class="form-control">
+                                                <!-- Add more options as needed -->
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="dateAction">
+                                            Date <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="dateAction" required="required" class="form-control ">
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="valueAction">
+                                            Value <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            @* <input type="text" id="dateAction" required="required" class="form-control "> *@
+                                            <textarea id="valueAction" class="resizable_textarea form-control" placeholder=""></textarea>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="ln_solid"></div>
+                                    <div class="item form-group">
+                                        <div class="col-md-6 col-sm-6 offset-md-3">
+                                            <button class="btn btn-primary" type="button" id="btnWorksiteActionCancel">Cancel</button>
+                                            <button type="button" class="btn btn-success" id="btnWorksiteActionSave">Save</button>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

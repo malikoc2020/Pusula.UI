@@ -8,6 +8,8 @@ var Worksites = {
     districts: null,
     currentWorksiteWorkersData: null,
     currentWorksiteWorkerData: null,
+    currentWorksiteActionsData: null,
+    currentWorksiteActionData: null,
 
     // You can add other methods as needed
     HandleWorksiteCompanents: function () {
@@ -25,7 +27,9 @@ var Worksites = {
             $("#endDateWorker").datepicker({
                 dateFormat: "dd/mm/yy"
             });
-
+            $("#dateAction").datepicker({
+                dateFormat: "dd/mm/yy"
+            });
         $('#mySelect2').select2({
             placeholder: 'Select a fruit',
             allowClear: true
@@ -37,6 +41,7 @@ var Worksites = {
         getGetAllDistricts();
         getUsers();
         getGetAllWorkerTypes();
+        getGetAllActionTypes();
         function getWorksites() {
             $.ajax({
                 url: '/Worksite/GetAllWorksites', // Update with the correct endpoint URL
@@ -221,7 +226,8 @@ var Worksites = {
                     {
                         data: null,
                         render: function (data, type, row) {
-                            return '<button type="button" class="btn btn-info btn-sm workers" data-id="' + row.id + '" data-row="' + row + '"> Workers </button>';
+                            return `<button type="button" class="btn btn-primary btn-sm workers" data-id=${row.id} data-row=${row}> Workers </button>
+                                    <button type="button" class="btn btn-info btn-sm actions" data-id=${row.id} data-row=${row}> Actions </button>`;
                         },
                         orderable: false
                     },
@@ -316,6 +322,72 @@ var Worksites = {
 
             });
         }
+
+        function setTableWorksiteActions(data, worksiteId) {
+
+            $('.insertAction').data('worksiteId', worksiteId);
+
+            // Check if the DataTable instance exists and destroy it
+            if ($.fn.DataTable.isDataTable("#datatable-worksiteactions")) {
+                $("#datatable-worksiteactions").DataTable().destroy();
+            }
+
+            $("#datatable-worksiteactions").DataTable({
+                dom: "Blfrtip",
+                buttons: [
+                    {
+                        extend: "copy",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "csv",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "excel",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "pdfHtml5",
+                        className: "btn-sm"
+                    },
+                    {
+                        extend: "print",
+                        className: "btn-sm"
+                    },
+                ],
+                responsive: true,
+                data: data,
+                columns: [
+                    { data: 'id' },
+                    { data: 'worksiteActionTypeName' },
+                    { data: 'value' },
+                    {
+                        data: 'date',
+                        render: function (data, type, row) {
+                            if (type === 'display' && data) {
+                                var date = new Date(data);
+                                var day = ("0" + date.getDate()).slice(-2);
+                                var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                                var year = date.getFullYear();
+                                return day + '/' + month + '/' + year;
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            return `<button type="button" class="btn btn-success btn-sm editWorksiteAction" data-id=${row.id} data-row=${row} data-worksiteId=${worksiteId}> Edit </button>
+                            <button type="button" class="btn btn-danger btn-sm deleteWorksiteAction" data-id=${row.id}> Delete </button>`;
+                        },
+                        orderable: false
+                    }
+                    // Define more columns if needed
+                ]
+
+            });
+        }
         $('#datatable-buttons').on('click', '.edit', function () {
             var worksiteId = $(this).data('id');
             console.log("Edit button clicked for worksite ID:", worksiteId);
@@ -339,6 +411,29 @@ var Worksites = {
                 deleteWorksiteWorker(worksiteWorkerId, row);
             }
         });
+
+
+
+        $('#datatable-buttons').on('click', '.actions', function () {
+            var worksiteId = $(this).data('id');
+            getWorksiteActions(worksiteId);
+        });
+
+        $('#datatable-worksiteactions').on('click', '.editWorksiteAction', function () {
+            let worksiteActionId = $(this).data('id');
+            getWorksiteAction(worksiteActionId);
+        });
+        $('#datatable-worksiteactions').on('click', '.deleteWorksiteAction', function () {
+            var confirmation = confirm("Are you sure you want to delete this Action from Actionsite?");
+            if (confirmation) {
+                let worksiteActionId = $(this).data('id');
+                var row = $(this).closest('tr');
+                deleteWorksiteAction(worksiteActionId, row);
+            }
+        });
+
+
+
         $(document).on('click', '.insert', function () {
 
             let worksite = {
@@ -371,9 +466,6 @@ var Worksites = {
             setWorksiteWorker(Worksites.currentWorksiteWorkerData);
             $('#editWorksiteWorkerModal').modal('show');
         });
-
-
-
         function getWorksite(worksiteId) {
             console.log('/Worksite/GetWorksiteById/' + worksiteId);
             $.ajax({
@@ -489,6 +581,107 @@ var Worksites = {
             });
         }
 
+
+
+        $(document).on('click', '.insertAction', function () {
+
+            let worksiteId = $(this).data('worksiteId');
+
+            let worksiteAction = {
+                id: 0,
+                worksiteId: worksiteId,
+                worksiteActionTypeId: '',
+                date: '',
+                value: ''
+            }
+            Worksites.currentWorksiteActionData = worksiteAction;
+            setWorksiteAction(Worksites.currentWorksiteActionData);
+            $('#editWorksiteActionModal').modal('show');
+        });
+        function getWorksiteAction(worksiteActionId) {
+            console.log('/Worksite/GetWorksiteActionById/' + worksiteActionId);
+            $.ajax({
+                url: '/Worksite/GetWorksiteActionById/' + worksiteActionId, // Update with the correct endpoint URL
+                method: 'GET',
+                dataType: 'json', // Expecting JSON data
+                success: function (response) {
+                    console.log(response); // Handle your data here
+                    // You can call other functions to process and display the data
+                    if (response.isSuccess) {
+                        console.log("worksiteaction data : ");
+                        console.log(response);
+                        Worksites.currentWorksiteActionData = response.result; // Assign the response to the global variable
+                        // Open the modal
+                        setWorksiteAction(Worksites.currentWorksiteActionData);
+                        $('#editWorksiteActionModal').modal('show');
+                    } else {
+                        console.log(response);
+                        // Show error toast here
+                        toastr.error('Error occurred: ' + response.errorMessage);
+
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching data: ' + textStatus, errorThrown);
+                    // Show error toast instead of logging to console
+                    toastr.error('Error fetching data: ' + textStatus + ', ' + errorThrown);
+                }
+            });
+        }
+        function deleteWorksiteAction(worksiteActionId, row) {
+            $.ajax({
+                url: '/Worksite/DeleteWorksiteAction/' + worksiteActionId, // Update with the correct endpoint URL
+                method: 'DELETE',
+                dataType: 'json', // Expecting JSON data
+                success: function (response) {
+                    console.log(response); // Handle your data here
+                    // You can call other functions to process and display the data
+                    if (response.isSuccess) {
+                        $('#datatable-worksiteactions').DataTable().row(row).remove().draw();
+                    } else {
+                        console.log(response);
+                        // Show error toast here
+                        toastr.error('Error occurred: ' + response.errorMessage);
+
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching data: ' + textStatus, errorThrown);
+                    // Show error toast instead of logging to console
+                    toastr.error('Error fetching data: ' + textStatus + ', ' + errorThrown);
+                }
+            });
+        }
+        function getWorksiteActions(worksiteId) {
+            console.log('/Worksite/GetWorksiteActionsByWorksiteId/' + worksiteId);
+            $.ajax({
+                url: '/Worksite/GetWorksiteActionsByWorksiteId/' + worksiteId, // Update with the correct endpoint URL
+                method: 'GET',
+                dataType: 'json', // Expecting JSON data
+                success: function (response) {
+                    console.log(response); // Handle your data here
+                    // You can call other functions to process and display the data
+                    if (response.isSuccess) {
+                        console.log("worksiteactions data : ");
+                        console.log(response);
+                        Worksites.currentWorksiteActionsData = response.result; // Assign the response to the global variable
+                        // Open the modal
+                        setTableWorksiteActions(Worksites.currentWorksiteActionsData, worksiteId);
+                        $('#worksiteActionsModal').modal('show');
+                    } else {
+                        console.log(response);
+                        // Show error toast here
+                        toastr.error('Error occurred: ' + response.errorMessage);
+
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching data: ' + textStatus, errorThrown);
+                    // Show error toast instead of logging to console
+                    toastr.error('Error fetching data: ' + textStatus + ', ' + errorThrown);
+                }
+            });
+        }
         function isNullOrEmpty(str) {
             return str === null || str === undefined || str.trim() === "";
         }
@@ -571,6 +764,32 @@ var Worksites = {
 
             }
         }
+
+
+        function setWorksiteAction(worksiteAction) {
+            $("#idAction").val(worksiteAction.id);
+            $("#worksiteIdForAction").val(worksiteAction.worksiteId);
+            $("#valueAction").val(worksiteAction.value);
+            $("#worksiteActionTypeId").val(worksiteAction.worksiteActionTypeId).trigger('change');
+
+            var worksiteActionDate = worksiteAction.date;
+            if (!isNullOrEmpty(worksiteActionDate)) {
+                var date = new Date(worksiteActionDate);
+
+                // Format the date as dd/mm/yyyy
+                var formattedDate = ("0" + date.getDate()).slice(-2) + "/"
+                    + ("0" + (date.getMonth() + 1)).slice(-2) + "/"
+                    + date.getFullYear();
+
+
+                $("#dateAction").val(formattedDate);
+            } else {
+                $("#dateAction").val('');
+
+            }
+        }
+
+
         function getUsers() {
             $.ajax({
                 url: '/User/GetAllUsers', // Update with the correct endpoint URL
@@ -647,6 +866,45 @@ var Worksites = {
                 }
             });
         }
+        function getGetAllActionTypes() {
+            $.ajax({
+                url: '/Worksite/GetAllWorksiteActionTypes', // Update with the correct endpoint URL
+                method: 'GET',
+                dataType: 'json', // Expecting JSON data
+                success: function (response) {
+                    console.log(response); // Handle your data here
+                    // You can call other functions to process and display the data
+                    if (response.isSuccess) {
+                        console.log("WorksiteActionTypes : ");
+                        console.log(response.result);
+                        var $select = $("#worksiteActionTypeId");
+                        response.result.forEach(function (v) {
+                            // Create an option element
+                            var $option = $("<option></option>")
+                                .val(v.id) // Assuming 'id' is the property you want as the option value
+                                .text(v.name); // Assuming 'userName' is what you want to display
+
+                            // Append the option to the select element
+                            $select.append($option);
+                        });
+
+                        $select.select2({
+                            placeholder: "Select a action type",
+                            allowClear: true,
+                            width: '100%'  // Set the width to 100%
+                        });
+
+
+                    } else {
+
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching data: ' + textStatus, errorThrown);
+                }
+            });
+        }
+
         function formatToISO(dateStr) {
             var parts = dateStr.split('/');
             return parts[2] + '-' + parts[1] + '-' + parts[0];
@@ -711,6 +969,9 @@ var Worksites = {
         $('#editWorksiteWorkerModal').on('click', '#btnWorksiteWorkerCancel', function () {
             setWorksiteWorker(Worksites.currentWorksiteWorkerData);
         });
+        $('#editWorksiteActionModal').on('click', '#btnWorksiteActionCancel', function () {
+            setWorksiteAction(Worksites.currentWorksiteActionData);
+        });
 
         $('#editWorksiteModal').on('hidden.bs.modal', function (e) {
             // If you need to reset the global variable or perform other cleanup tasks, do it here
@@ -756,6 +1017,56 @@ var Worksites = {
                     if (response.isSuccess) {
                         getWorksiteWorkers(worksiteId);
                         $('#editWorksiteWorkerModal').modal('hide');
+                    } else {
+                        console.log(response);
+                        // Show error toast here
+                        toastr.error('Error occurred: ' + response.errorMessage);
+
+                    }
+
+                    // You might want to close the modal or refresh the page here
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Handle error
+                    console.error('Error updating worksite: ' + textStatus, errorThrown);
+                    toastr.error('Error fetching data: ' + textStatus + ', ' + errorThrown);
+                }
+            });
+
+        });
+
+        $('#editWorksiteActionModal').on('click', '#btnWorksiteActionSave', function () {
+            let id = $("#idAction").val();
+            let worksiteId = $("#worksiteIdForAction").val();
+            let valueAction = $("#valueAction").val();
+            let worksiteActionTypeId = $("#worksiteActionTypeId").val();
+            let date = formatToISO($("#dateAction").val());
+
+            var request = {
+                Id: id,
+                WorksiteId: worksiteId,
+                Value: valueAction,
+                WorksiteActionTypeId: worksiteActionTypeId,
+                Date: date
+            }
+            console.log("Edit Request : ");
+            console.log(request);
+            let URL = '/Worksite/UpdateWorksiteAction';
+            if (request.Id == 0) {
+                URL = '/Worksite/InsertWorksiteAction';
+            }
+            $.ajax({
+                url: URL, // Update with the correct endpoint URL
+                method: 'POST',
+                contentType: 'application/json', // Specify the content type
+                data: JSON.stringify(request), // Convert the JavaScript object to a JSON string
+                success: function (response) {
+                    // Handle success
+                    console.log('Update successful:');
+                    console.log(response.result);
+                    if (response.isSuccess) {
+                        getWorksiteActions(worksiteId);
+                        $('#editWorksiteActionModal').modal('hide');
                     } else {
                         console.log(response);
                         // Show error toast here

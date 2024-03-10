@@ -193,5 +193,111 @@ namespace Services.WorksiteService
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse?.Message}";
             return baseApiResponse;
         }
+        public async Task<BaseResponse> GetAllWorksiteActionTypes()
+        {
+            var response = await _baseApiAdapter.GetAllWorksiteActionTypes();
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                List<WorksiteActionTypeDTO> users = JsonConvert.DeserializeObject<List<WorksiteActionTypeDTO>>(baseApiResponse.Result.ToString()) ?? new List<WorksiteActionTypeDTO>();
+                baseApiResponse.Result = users;
+
+                return baseApiResponse;
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to access this resource. Please login.");
+            }
+            if (baseApiResponse is null)
+            {
+                baseApiResponse = new BaseResponse(false, "", null);
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> GetWorksiteActionById(int id)
+        {
+            var response = await _baseApiAdapter.GetWorksiteActionById(id);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                WorksiteActionDTO worksite = JsonConvert.DeserializeObject<WorksiteActionDTO>(baseApiResponse.Result.ToString()) ?? new WorksiteActionDTO();
+                baseApiResponse.Result = worksite;
+
+                return baseApiResponse;
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to access this resource. Please login.");
+            }
+            if (baseApiResponse is null)
+            {
+                baseApiResponse = new BaseResponse(false, "", null);
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> GetWorksiteActionsByWorksiteId(int worksiteId)
+        {
+            var response = await _baseApiAdapter.GetWorksiteActionsByWorksiteId(worksiteId);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                List<WorksiteActionDTO> worksite = JsonConvert.DeserializeObject<List<WorksiteActionDTO>>(baseApiResponse.Result.ToString()) ?? new List<WorksiteActionDTO>();
+                baseApiResponse.Result = worksite;
+
+                return baseApiResponse;
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to access this resource. Please login.");
+            }
+            if (baseApiResponse is null)
+            {
+                baseApiResponse = new BaseResponse(false, "", null);
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> InsertWorksiteAction(WorksiteActionDTO request)
+        {
+            var response = await _baseApiAdapter.InsertWorksiteAction(request);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return baseApiResponse;
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> UpdateWorksiteAction(WorksiteActionDTO request)
+        {
+            var response = await _baseApiAdapter.UpdateWorksiteAction(request);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return baseApiResponse;
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> DeleteWorksiteAction(int worksiteActionId)
+        {
+            var response = await _baseApiAdapter.DeleteWorksiteAction(worksiteActionId);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return baseApiResponse;
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse?.Message}";
+            return baseApiResponse;
+        }
     }
 }

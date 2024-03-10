@@ -120,6 +120,18 @@ namespace Adapters.BaseApi
             request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
             return await _httpClient.PostAsJsonAsync($"{_apiURL}/Worksite/UpdateWorksite", request);
         }
+
+        public async Task<HttpResponseMessage> GetAllProvinces()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Common/GetAllProvinces");
+        }
+        public async Task<HttpResponseMessage> GetAllDistricts()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Common/GetAllDistricts");
+        }
+        #endregion
+
+        #region WorksiteWorker
         public async Task<HttpResponseMessage> GetAllWorksiteWorkerTypes()
         {
             return await _httpClient.GetAsync($"{_apiURL}/Worksite/GetAllWorksiteWorkerTypes");
@@ -134,29 +146,42 @@ namespace Adapters.BaseApi
         }
         public async Task<HttpResponseMessage> InsertWorksiteWorker(WorksiteWorkerDTO request)
         {
-            request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
             return await _httpClient.PostAsJsonAsync($"{_apiURL}/Worksite/InsertWorksiteWorker", request);
         }
         public async Task<HttpResponseMessage> UpdateWorksiteWorker(WorksiteWorkerDTO request)
         {
-            request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
             return await _httpClient.PostAsJsonAsync($"{_apiURL}/Worksite/UpdateWorksiteWorker", request);
         }
         public async Task<HttpResponseMessage> DeleteWorksiteWorker(int worksiteWorkerId)
         {
-            //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
             return await _httpClient.DeleteAsync($"{_apiURL}/Worksite/DeleteWorksiteWorker/{worksiteWorkerId}");
         }
         #endregion
 
-        #region Worksite
-        public async Task<HttpResponseMessage> GetAllProvinces()
+        #region WorksiteAction
+        public async Task<HttpResponseMessage> GetAllWorksiteActionTypes()
         {
-            return await _httpClient.GetAsync($"{_apiURL}/Common/GetAllProvinces");
+            return await _httpClient.GetAsync($"{_apiURL}/Worksite/GetAllWorksiteActionTypes");
         }
-        public async Task<HttpResponseMessage> GetAllDistricts()
+        public async Task<HttpResponseMessage> GetWorksiteActionById(int id)
         {
-            return await _httpClient.GetAsync($"{_apiURL}/Common/GetAllDistricts");
+            return await _httpClient.GetAsync($"{_apiURL}/Worksite/GetWorksiteActionById/{id}");
+        }
+        public async Task<HttpResponseMessage> GetWorksiteActionsByWorksiteId(int worksiteId)
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Worksite/GetWorksiteActionsByWorksiteId/{worksiteId}");
+        }
+        public async Task<HttpResponseMessage> InsertWorksiteAction(WorksiteActionDTO request)
+        {
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Worksite/InsertWorksiteAction", request);
+        }
+        public async Task<HttpResponseMessage> UpdateWorksiteAction(WorksiteActionDTO request)
+        {
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Worksite/UpdateWorksiteAction", request);
+        }
+        public async Task<HttpResponseMessage> DeleteWorksiteAction(int worksiteActionId)
+        {
+            return await _httpClient.DeleteAsync($"{_apiURL}/Worksite/DeleteWorksiteAction/{worksiteActionId}");
         }
         #endregion
     }
