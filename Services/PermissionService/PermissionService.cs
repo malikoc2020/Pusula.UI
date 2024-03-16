@@ -113,5 +113,17 @@ namespace Services.PermissionService
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
             return baseApiResponse;
         }
+        public async Task<BaseResponse> DeletePermission(int id)
+        {
+            var response = await _baseApiAdapter.DeletePermission(id);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return baseApiResponse;
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse?.Message}";
+            return baseApiResponse;
+        }
     }
 }

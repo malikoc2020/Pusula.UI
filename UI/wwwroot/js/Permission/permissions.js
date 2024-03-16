@@ -192,7 +192,12 @@ var Permissions = {
                     {
                         data: null,
                         render: function (data, type, row) {
-                            return '<button type="button" class="btn btn-success btn-sm edit" data-id="' + row.id + '" data-row="' + row.row + '"> Edit </button>';
+                            //return '<button type="button" class="btn btn-success btn-sm edit" data-id="' + row.id + '" data-row="' + row.row + '"> Edit </button>';
+
+                            return `<button type="button" class="btn btn-success btn-sm edit" data-id=${row.id} data-row=${row}> Edit </button>
+                            <button type="button" class="btn btn-danger btn-sm delete" data-id=${row.id}> Delete </button>`;
+
+
                         },
                         orderable: false
                     }
@@ -359,6 +364,40 @@ var Permissions = {
             // If you need to reset the global variable or perform other cleanup tasks, do it here
             Permissions.currentPermissionData = null;
         });
+
+        $('#datatable-buttons').on('click', '.delete', function () {
+            var confirmation = confirm("Are you sure you want to delete this Permission?");
+            if (confirmation) {
+                let id = $(this).data('id');
+                var row = $(this).closest('tr');
+                deletePermission(id, row);
+            }
+        });
+
+        function deletePermission(id, row) {
+            $.ajax({
+                url: '/Permission/DeletePermission/' + id, // Update with the correct endpoint URL
+                method: 'DELETE',
+                dataType: 'json', // Expecting JSON data
+                success: function (response) {
+                    console.log(response); // Handle your data here
+                    // You can call other functions to process and display the data
+                    if (response.isSuccess) {
+                        $('#datatable-buttons').DataTable().row(row).remove().draw();
+                    } else {
+                        console.log(response);
+                        // Show error toast here
+                        toastr.error('Error occurred: ' + response.errorMessage);
+
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching data: ' + textStatus, errorThrown);
+                    // Show error toast instead of logging to console
+                    toastr.error('Error fetching data: ' + textStatus + ', ' + errorThrown);
+                }
+            });
+        }
     },
 };
 

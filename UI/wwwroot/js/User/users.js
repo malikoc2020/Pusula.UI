@@ -78,6 +78,8 @@ var Users = {
                     { data: 'surName' },
                     { data: 'email' },
                     { data: 'phoneNumber' },
+                    { data: 'salary' },
+                    { data: 'annualLeaveDaysToUse' },
                     {
                         data: null,
                         render: function (data, type, row) {
@@ -145,7 +147,10 @@ var Users = {
             $("#surName").val(user.surName);
             $("#email").val(user.email);
             $("#phoneNumber").val(user.phoneNumber);
-            if (isNullOrEmpty(user.dateOfStart)) {
+            $("#salary").val(user.salary);
+ 
+            if (!isNullOrEmpty(user.dateOfStart)) {
+
                 var userDateOfStart = user.dateOfStart;
                 var dateStart = new Date(userDateOfStart);
 
@@ -156,6 +161,7 @@ var Users = {
 
                 // Set the formatted date to the input field
                 $("#dateOfStart").val(formattedDate);
+ 
             }
             setRoleArea(userResponse.allRoles, user.userRoles);
         }
@@ -166,6 +172,8 @@ var Users = {
             let surName = $("#surName").val();
             let email = $("#email").val();
             let phoneNumber = $("#phoneNumber").val();
+            let salary = $("#salary").val();
+
             let userRoles = [];
             $('.userrole').each(function () {
                 if ($(this).is(':checked')) {
@@ -181,7 +189,8 @@ var Users = {
                 Email: email,
                 PhoneNumber: phoneNumber,
                 UserRoles: userRoles,
-                DateOfStart: dateOfStart
+                DateOfStart: dateOfStart,
+                Salary: salary
             }
             console.log(request);
             $.ajax({

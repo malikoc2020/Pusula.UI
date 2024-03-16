@@ -48,5 +48,11 @@ namespace UI.Controllers
             var res = await _permissionService.GetAllPermissionTypes();
             return Json(res);
         }
+        [HttpDelete("permission/DeletePermission/{id}")]
+        public async Task<IActionResult> DeletePermission(int id)
+        {
+            var res = await _permissionService.DeletePermission(id);
+            return Json(res);
+        }
     }
 }

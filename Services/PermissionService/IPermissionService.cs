@@ -11,5 +11,6 @@ namespace Services.PermissionService
         Task<BaseResponse> InsertPermission(PermissionDTO request);
         Task<BaseResponse> UpdatePermission(PermissionDTO request);
         Task<BaseResponse> GetAllPermissionTypes();
+        Task<BaseResponse> DeletePermission(int id);
     }
 }

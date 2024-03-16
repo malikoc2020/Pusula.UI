@@ -99,6 +99,10 @@ namespace Adapters.BaseApi
         {
             return await _httpClient.GetAsync($"{_apiURL}/Permission/GetAllPermissionTypes");
         }
+        public async Task<HttpResponseMessage> DeletePermission(int id)
+        {
+            return await _httpClient.DeleteAsync($"{_apiURL}/Permission/Delete/{id}");
+        }
         #endregion
 
         #region Worksite
