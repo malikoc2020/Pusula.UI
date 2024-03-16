@@ -161,7 +161,9 @@ var Users = {
 
                 // Set the formatted date to the input field
                 $("#dateOfStart").val(formattedDate);
- 
+
+            } else {
+                $("#dateOfStart").val("");
             }
             setRoleArea(userResponse.allRoles, user.userRoles);
         }

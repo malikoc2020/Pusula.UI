@@ -87,12 +87,12 @@ namespace Adapters.BaseApi
         }
         public async Task<HttpResponseMessage> InsertPermission(PermissionDTO request)
         {
-            request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
             return await _httpClient.PostAsJsonAsync($"{_apiURL}/Permission/InsertPermission", request);
         }
         public async Task<HttpResponseMessage> UpdatePermission(PermissionDTO request)
         {
-            request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
             return await _httpClient.PostAsJsonAsync($"{_apiURL}/Permission/UpdatePermission", request);
         }
         public async Task<HttpResponseMessage> GetAllPermissionTypes()
@@ -101,7 +101,7 @@ namespace Adapters.BaseApi
         }
         public async Task<HttpResponseMessage> DeletePermission(int id)
         {
-            return await _httpClient.DeleteAsync($"{_apiURL}/Permission/Delete/{id}");
+            return await _httpClient.DeleteAsync($"{_apiURL}/Permission/DeletePermission/{id}");
         }
         #endregion
 
