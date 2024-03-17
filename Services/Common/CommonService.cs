@@ -25,8 +25,8 @@ namespace Services.CommonService
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                List<ProvinceDTO> users = JsonConvert.DeserializeObject<List<ProvinceDTO>>(baseApiResponse.Result.ToString()) ?? new List<ProvinceDTO>();
-                baseApiResponse.Result = users;
+                List<ProvinceDTO> list = JsonConvert.DeserializeObject<List<ProvinceDTO>>(baseApiResponse.Result.ToString()) ?? new List<ProvinceDTO>();
+                baseApiResponse.Result = list;
 
                 return baseApiResponse;
             }
@@ -49,8 +49,56 @@ namespace Services.CommonService
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                List<DistrictDTO> users = JsonConvert.DeserializeObject<List<DistrictDTO>>(baseApiResponse.Result.ToString()) ?? new List<DistrictDTO>();
-                baseApiResponse.Result = users;
+                List<DistrictDTO> list = JsonConvert.DeserializeObject<List<DistrictDTO>>(baseApiResponse.Result.ToString()) ?? new List<DistrictDTO>();
+                baseApiResponse.Result = list;
+
+                return baseApiResponse;
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to access this resource. Please login.");
+            }
+            if (baseApiResponse is null)
+            {
+                baseApiResponse = new BaseResponse(false, "", null);
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> GetAllYears()
+        {
+            var response = await _baseApiAdapter.GetAllYears();
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                List<YearDTO> years = JsonConvert.DeserializeObject<List<YearDTO>>(baseApiResponse.Result.ToString()) ?? new List<YearDTO>();
+                baseApiResponse.Result = years;
+
+                return baseApiResponse;
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to access this resource. Please login.");
+            }
+            if (baseApiResponse is null)
+            {
+                baseApiResponse = new BaseResponse(false, "", null);
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
+        public async Task<BaseResponse> GetAllMonths()
+        {
+            var response = await _baseApiAdapter.GetAllMonths();
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                List<MonthDTO> months = JsonConvert.DeserializeObject<List<MonthDTO>>(baseApiResponse.Result.ToString()) ?? new List<MonthDTO>();
+                baseApiResponse.Result = months;
 
                 return baseApiResponse;
             }

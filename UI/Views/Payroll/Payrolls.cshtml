@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Permissions";
+    ViewData["Title"] = "Payrolls";
     Layout = null;
 }
 <!DOCTYPE html>
@@ -51,7 +51,7 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Users</h2>
-                    <button type="button" class="btn btn-info btn-sm insert" style="float:right;"> New Permission </button>
+                    <button type="button" class="btn btn-info btn-sm insert" style="float:right;"> New Payroll </button>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -63,7 +63,7 @@
                                         <tr>
                                             <th>Id</th>
                                             <th>UserId</th>
-                                            <th>PermissionTypeId</th>
+                                            <th>PayrollTypeId</th>
                                             <th>StartDate</th>
                                             <th>EndDate</th>
                                             <th></th>
@@ -81,7 +81,7 @@
     </div>
 
 
-    @Html.Partial("_PermissionDetailModal")
+    @Html.Partial("_PayrollDetailModal")
 
 
     <script src="~/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -104,6 +104,6 @@
     <!-- jQuery UI Script -->
     <!-- Select2 -->
     <script src="~/gentelella/vendors/select2/dist/js/select2.full.min.js"></script>
-    <script src="~/js/permission/permissions.js"></script>
+    <script src="~/js/payroll/payrolls.js"></script>
 </body>
 </html>

@@ -133,6 +133,14 @@ namespace Adapters.BaseApi
         {
             return await _httpClient.GetAsync($"{_apiURL}/Common/GetAllDistricts");
         }
+        public async Task<HttpResponseMessage> GetAllYears()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Common/GetAllYears");
+        }
+        public async Task<HttpResponseMessage> GetAllMonths()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Common/GetAllMonths");
+        }
         #endregion
 
         #region WorksiteWorker

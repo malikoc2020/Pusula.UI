@@ -26,5 +26,15 @@ namespace UI.Controllers
             var res = await _CommonService.GetAllDistricts();
             return Json(res);
         }
+        public async Task<IActionResult> GetAllYears()
+        {
+            var res = await _CommonService.GetAllYears();
+            return Json(res);
+        }
+        public async Task<IActionResult> GetAllMonths()
+        {
+            var res = await _CommonService.GetAllMonths();
+            return Json(res);
+        }
     }
 }

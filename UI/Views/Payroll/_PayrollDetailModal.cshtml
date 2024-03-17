@@ -1,0 +1,138 @@
+﻿    <!-- The Modal -->
+<div class="modal" id="editPayrollModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Payrolls</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Payroll Detail</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <br />
+                                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                                    <input type="hidden" id="id" name="id" value="">
+
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="userId">
+                                            User <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            @* <input type="text" id="userId" required="required" class="form-control "> *@
+                                            <select id="userId" class="form-control">
+                                                <!-- Add more options as needed -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="payrollTypeId">
+                                            Payroll Type <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            @* <input type="text" id="payrollTypeId" name="last-name" required="required" class="form-control"> *@
+                                            <select id="payrollTypeId" class="form-control">
+                                                <!-- Add more options as needed -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="startDate">
+                                            Start Date <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="startDate" required="required" class="form-control ">
+                                        </div>
+                                    </div>
+                                 @*    <script>
+                                        $(function () {
+                                            $("#startDate").datepicker({
+                                                dateFormat: "dd/mm/yy"
+                                            });
+                                        });
+                                    </script> *@
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="endDate">
+                                            End Date <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="endDate" required="required" class="form-control ">
+                                        </div>
+                                    </div>
+                                   @*  <script>
+                                        $(function () {
+                                            $("#endDate").datepicker({
+                                                dateFormat: "dd/mm/yy"
+                                            });
+                                        });
+                                    </script> *@
+
+@* 
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">
+                                            Date Of Birth <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="startDate" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" type="text" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                                            <script>
+                                                function timeFunctionLong(input) {
+                                                    setTimeout(function () {
+                                                        input.type = 'text';
+                                                    }, 60000);
+                                                }
+                                            </script>
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">
+                                            Date Of Birth <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="endDate" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" type="text" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                                            <script>
+                                                function timeFunctionLong(input) {
+                                                    setTimeout(function () {
+                                                        input.type = 'text';
+                                                    }, 60000);
+                                                }
+                                            </script>
+                                        </div>
+                                    </div>
+ *@
+
+                                    <div class="ln_solid"></div>
+                                    <div class="item form-group">
+                                        <div class="col-md-6 col-sm-6 offset-md-3">
+                                            <button class="btn btn-primary" type="button" id="btnPayrollCancel">Cancel</button>
+                                            <button type="button" class="btn btn-success" id="btnPayrollSave">Save</button>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
