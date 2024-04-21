@@ -1,5 +1,4 @@
 ﻿using Classes.DTO;
-using Classes.Request.UserRequest;
 using Services.Response;
 
 namespace Services.PayrollService

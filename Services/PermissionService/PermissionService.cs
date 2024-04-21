@@ -1,7 +1,5 @@
 ﻿using Adapters.BaseApi;
 using Classes.DTO;
-using Classes.Request.UserRequest;
-using Classes.Response.PermissionResponse;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Services.Response;
