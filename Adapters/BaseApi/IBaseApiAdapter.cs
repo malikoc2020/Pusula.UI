@@ -40,5 +40,20 @@ namespace Adapters.BaseApi
         Task<HttpResponseMessage> InsertWorksiteAction(WorksiteActionDTO request);
         Task<HttpResponseMessage> UpdateWorksiteAction(WorksiteActionDTO request);
         Task<HttpResponseMessage> DeleteWorksiteAction(int worksiteActionId);
+        Task<HttpResponseMessage> GetAllPayrollSettings();
+        Task<HttpResponseMessage> GetPayrollSettingById(int payrollSettingId);
+        Task<HttpResponseMessage> InsertPayrollSetting(PayrollSettingDTO request);
+        Task<HttpResponseMessage> UpdatePayrollSetting(PayrollSettingDTO request);
+        Task<HttpResponseMessage> DeletePayrollSetting(int id);
+        Task<HttpResponseMessage> GetAllPayrolls();
+        Task<HttpResponseMessage> GetPayrollById(int payrollId);
+        Task<HttpResponseMessage> InsertPayroll(PayrollDTO request);
+        Task<HttpResponseMessage> UpdatePayroll(PayrollDTO request);
+        Task<HttpResponseMessage> DeletePayroll(int id);
+        Task<HttpResponseMessage> GetAllPayrollTemps();
+        Task<HttpResponseMessage> GetPayrollTempById(int payrollTempId);
+        Task<HttpResponseMessage> InsertPayrollTemp(PayrollTempDTO request);
+        Task<HttpResponseMessage> UpdatePayrollTemp(PayrollTempDTO request);
+        Task<HttpResponseMessage> DeletePayrollTemp(int id);
     }
 }

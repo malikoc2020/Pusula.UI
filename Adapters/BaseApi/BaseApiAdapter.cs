@@ -196,5 +196,76 @@ namespace Adapters.BaseApi
             return await _httpClient.DeleteAsync($"{_apiURL}/Worksite/DeleteWorksiteAction/{worksiteActionId}");
         }
         #endregion
+
+        #region Payroll
+        public async Task<HttpResponseMessage> GetAllPayrollSettings()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/PayrollSetting/GetAllPayrollSettings");
+        }
+        public async Task<HttpResponseMessage> GetPayrollSettingById(int payrollSettingId)
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/PayrollSetting/GetPayrollSettingById/{payrollSettingId}");
+        }
+        public async Task<HttpResponseMessage> InsertPayrollSetting(PayrollSettingDTO request)
+        {
+            //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/PayrollSetting/InsertPayrollSetting", request);
+        }
+        public async Task<HttpResponseMessage> UpdatePayrollSetting(PayrollSettingDTO request)
+        {
+            //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/PayrollSetting/UpdatePayrollSetting", request);
+        }
+        public async Task<HttpResponseMessage> DeletePayrollSetting(int id)
+        {
+            return await _httpClient.DeleteAsync($"{_apiURL}/PayrollSetting/DeletePayrollSetting/{id}");
+        }
+
+        public async Task<HttpResponseMessage> GetAllPayrolls()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Payroll/GetAllPayrolls");
+        }
+        public async Task<HttpResponseMessage> GetPayrollById(int payrollId)
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/Payroll/GetPayrollById/{payrollId}");
+        }
+        public async Task<HttpResponseMessage> InsertPayroll(PayrollDTO request)
+        {
+            //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Payroll/InsertPayroll", request);
+        }
+        public async Task<HttpResponseMessage> UpdatePayroll(PayrollDTO request)
+        {
+            //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Payroll/UpdatePayroll", request);
+        }
+        public async Task<HttpResponseMessage> DeletePayroll(int id)
+        {
+            return await _httpClient.DeleteAsync($"{_apiURL}/Payroll/DeletePayroll/{id}");
+        }
+
+        public async Task<HttpResponseMessage> GetAllPayrollTemps()
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/PayrollTemp/GetAllPayrollTemps");
+        }
+        public async Task<HttpResponseMessage> GetPayrollTempById(int payrollTempId)
+        {
+            return await _httpClient.GetAsync($"{_apiURL}/PayrollTemp/GetPayrollTempById/{payrollTempId}");
+        }
+        public async Task<HttpResponseMessage> InsertPayrollTemp(PayrollTempDTO request)
+        {
+            //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/PayrollTemp/InsertPayrollTemp", request);
+        }
+        public async Task<HttpResponseMessage> UpdatePayrollTemp(PayrollTempDTO request)
+        {
+            //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/PayrollTemp/UpdatePayrollTemp", request);
+        }
+        public async Task<HttpResponseMessage> DeletePayrollTemp(int id)
+        {
+            return await _httpClient.DeleteAsync($"{_apiURL}/PayrollTemp/DeletePayrollTemp/{id}");
+        }
+        #endregion
     }
 }
