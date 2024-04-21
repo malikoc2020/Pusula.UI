@@ -99,9 +99,9 @@ namespace Services.PayrollService
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse?.Message}";
             return baseApiResponse;
         }
-        public async Task<BaseResponse> GetAllPayrolls()
+        public async Task<BaseResponse> GetAllPayrolls(PayrollFilterDTO request)
         {
-            var response = await _baseApiAdapter.GetAllPayrolls();
+            var response = await _baseApiAdapter.GetAllPayrolls(request);
             var content = await response.Content.ReadAsStringAsync();
             var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
 
@@ -182,9 +182,9 @@ namespace Services.PayrollService
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse?.Message}";
             return baseApiResponse;
         }
-        public async Task<BaseResponse> GetAllPayrollTemps()
+        public async Task<BaseResponse> GetAllPayrollTemps(PayrollTempFilterDTO request)
         {
-            var response = await _baseApiAdapter.GetAllPayrollTemps();
+            var response = await _baseApiAdapter.GetAllPayrollTemps(request);
             var content = await response.Content.ReadAsStringAsync();
             var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
 

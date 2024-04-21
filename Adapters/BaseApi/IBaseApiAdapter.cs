@@ -45,12 +45,12 @@ namespace Adapters.BaseApi
         Task<HttpResponseMessage> InsertPayrollSetting(PayrollSettingDTO request);
         Task<HttpResponseMessage> UpdatePayrollSetting(PayrollSettingDTO request);
         Task<HttpResponseMessage> DeletePayrollSetting(int id);
-        Task<HttpResponseMessage> GetAllPayrolls();
+        Task<HttpResponseMessage> GetAllPayrolls(PayrollFilterDTO request);
         Task<HttpResponseMessage> GetPayrollById(int payrollId);
         Task<HttpResponseMessage> InsertPayroll(PayrollDTO request);
         Task<HttpResponseMessage> UpdatePayroll(PayrollDTO request);
         Task<HttpResponseMessage> DeletePayroll(int id);
-        Task<HttpResponseMessage> GetAllPayrollTemps();
+        Task<HttpResponseMessage> GetAllPayrollTemps(PayrollTempFilterDTO request);
         Task<HttpResponseMessage> GetPayrollTempById(int payrollTempId);
         Task<HttpResponseMessage> InsertPayrollTemp(PayrollTempDTO request);
         Task<HttpResponseMessage> UpdatePayrollTemp(PayrollTempDTO request);

@@ -53,9 +53,9 @@ namespace UI.Controllers
             return View();
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllPayrolls()
+        public async Task<IActionResult> GetAllPayrolls(PayrollFilterDTO request)
         {
-            var res = await _payrollService.GetAllPayrolls();
+            var res = await _payrollService.GetAllPayrolls(request);
             return Json(res);
         }
         [HttpGet("payroll/GetPayrollById/{payrollId}")]
@@ -87,9 +87,9 @@ namespace UI.Controllers
             return View();
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllPayrollTemps()
+        public async Task<IActionResult> GetAllPayrollTemps(PayrollTempFilterDTO request)
         {
-            var res = await _payrollService.GetAllPayrollTemps();
+            var res = await _payrollService.GetAllPayrollTemps(request);
             return Json(res);
         }
         [HttpGet("payrollTemp/GetPayrollTempById/{payrollTempId}")]

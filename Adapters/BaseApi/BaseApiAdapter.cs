@@ -221,9 +221,28 @@ namespace Adapters.BaseApi
             return await _httpClient.DeleteAsync($"{_apiURL}/PayrollSetting/DeletePayrollSetting/{id}");
         }
 
-        public async Task<HttpResponseMessage> GetAllPayrolls()
+        public async Task<HttpResponseMessage> GetAllPayrolls(PayrollFilterDTO request)
         {
-            return await _httpClient.GetAsync($"{_apiURL}/Payroll/GetAllPayrolls");
+            // Construct query parameters from the request object
+            var queryParams = new List<string>();
+
+            if (request.UserId != null)
+                queryParams.Add($"UserId={Uri.EscapeDataString(request.UserId)}");
+
+            if (request.YearId.HasValue)
+                queryParams.Add($"YearId={request.YearId.Value}");
+
+            if (request.MonthId.HasValue)
+                queryParams.Add($"MonthId={request.MonthId.Value}");
+
+            // Join all parameters with '&' and prepend a '?' if there are any parameters
+            string queryString = queryParams.Any() ? "?" + string.Join("&", queryParams) : string.Empty;
+
+            // Append the query string to the API URL
+            string url = $"{_apiURL}/Payroll/GetAllPayrolls" + queryString;
+
+            // Make the GET request with the constructed URL
+            return await _httpClient.GetAsync(url);
         }
         public async Task<HttpResponseMessage> GetPayrollById(int payrollId)
         {
@@ -244,9 +263,28 @@ namespace Adapters.BaseApi
             return await _httpClient.DeleteAsync($"{_apiURL}/Payroll/DeletePayroll/{id}");
         }
 
-        public async Task<HttpResponseMessage> GetAllPayrollTemps()
+        public async Task<HttpResponseMessage> GetAllPayrollTemps(PayrollTempFilterDTO request)
         {
-            return await _httpClient.GetAsync($"{_apiURL}/PayrollTemp/GetAllPayrollTemps");
+            // Construct query parameters from the request object
+            var queryParams = new List<string>();
+
+            if (request.UserId != null)
+                queryParams.Add($"UserId={Uri.EscapeDataString(request.UserId)}");
+
+            if (request.YearId.HasValue)
+                queryParams.Add($"YearId={request.YearId.Value}");
+
+            if (request.MonthId.HasValue)
+                queryParams.Add($"MonthId={request.MonthId.Value}");
+
+            // Join all parameters with '&' and prepend a '?' if there are any parameters
+            string queryString = queryParams.Any() ? "?" + string.Join("&", queryParams) : string.Empty;
+
+            // Append the query string to the API URL
+            string url = $"{_apiURL}/Payroll/GetAllPayrollTemps" + queryString;
+
+            // Make the GET request with the constructed URL
+            return await _httpClient.GetAsync(url);
         }
         public async Task<HttpResponseMessage> GetPayrollTempById(int payrollTempId)
         {

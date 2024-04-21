@@ -1,6 +1,6 @@
 // specificPage.js
 
-var Payrolls = {
+var PayrollTemps = {
     init: function () {
         console.log("Specific Page initialized");
         // Other initialization code
@@ -22,7 +22,7 @@ var Payrolls = {
             var queryString = $.param(request);
 
             $.ajax({
-                url: '/Payroll/GetAllPayrolls?'+queryString,  
+                url: '/Payroll/GetAllPayrollTemps?'+queryString,  
                 method: 'GET',
                 dataType: 'json', // Expecting JSON data
                 
@@ -258,8 +258,8 @@ var Payrolls = {
                 overtime: ''
             }
             console.log(payroll);
-            Payrolls.currentPayrollData = payroll;
-            setPayroll(Payrolls.currentPayrollData);
+            PayrollTemps.currentPayrollData = payroll;
+            setPayroll(PayrollTemps.currentPayrollData);
             $('#editPayrollModal').modal('show');
         });
 
@@ -268,9 +268,8 @@ var Payrolls = {
 
 
         function getPayroll(payrollId) {
-            console.log('/Payroll/GetPayrollById/' + payrollId);
             $.ajax({
-                url: '/Payroll/GetPayrollById/' + payrollId, // Update with the correct endpoint URL
+                url: '/Payroll/GetPayrollTempById/' + payrollId, // Update with the correct endpoint URL
                 method: 'GET',
                 dataType: 'json', // Expecting JSON data
                 success: function (response) {
@@ -279,9 +278,9 @@ var Payrolls = {
                     if (response.isSuccess) {
                         console.log("payroll data : ");
                         console.log(response);
-                        Payrolls.currentPayrollData = response.result; // Assign the response to the global variable
+                        PayrollTemps.currentPayrollData = response.result; // Assign the response to the global variable
                         // Open the modal
-                        setPayroll(Payrolls.currentPayrollData);
+                        setPayroll(PayrollTemps.currentPayrollData);
                         $('#editPayrollModal').modal('show');
                     } else {
                         console.log(response);
@@ -328,9 +327,9 @@ var Payrolls = {
             }
             console.log("Edit Request : ");
             console.log(request);
-            let URL = '/Payroll/UpdatePayroll';
+            let URL = '/Payroll/UpdatePayrollTemp';
             if (request.Id == 0) {
-                URL = '/Payroll/InsertPayroll';
+                URL = '/Payroll/InsertPayrollTemp';
             }
             $.ajax({
                 url: URL, // Update with the correct endpoint URL
@@ -360,12 +359,12 @@ var Payrolls = {
 
         });
         $('#editPayrollModal').on('click', '#btnPayrollCancel', function () {
-            setPayroll(Payrolls.currentPayrollData);
+            setPayroll(PayrollTemps.currentPayrollData);
         });
 
         $('#editPayrollModal').on('hidden.bs.modal', function (e) {
             // If you need to reset the global variable or perform other cleanup tasks, do it here
-            Payrolls.currentPayrollData = null;
+            PayrollTemps.currentPayrollData = null;
         });
 
         $('#datatable-buttons').on('click', '.delete', function () {
@@ -379,7 +378,7 @@ var Payrolls = {
 
         function deletePayroll(id, row) {
             $.ajax({
-                url: '/Payroll/DeletePayroll/' + id, // Update with the correct endpoint URL
+                url: '/Payroll/DeletePayrollTemp/' + id, // Update with the correct endpoint URL
                 method: 'DELETE',
                 dataType: 'json', // Expecting JSON data
                 success: function (response) {
@@ -405,5 +404,5 @@ var Payrolls = {
 };
 
 $(document).ready(function () {
-    Payrolls.init();
+    PayrollTemps.init();
 });

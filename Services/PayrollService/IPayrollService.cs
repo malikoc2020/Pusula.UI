@@ -10,12 +10,12 @@ namespace Services.PayrollService
         Task<BaseResponse> InsertPayrollSetting(PayrollSettingDTO request);
         Task<BaseResponse> UpdatePayrollSetting(PayrollSettingDTO request);
         Task<BaseResponse> DeletePayrollSetting(int id);
-        Task<BaseResponse> GetAllPayrolls();
+        Task<BaseResponse> GetAllPayrolls(PayrollFilterDTO request);
         Task<BaseResponse> GetPayrollById(int payrollId);
         Task<BaseResponse> InsertPayroll(PayrollDTO request);
         Task<BaseResponse> UpdatePayroll(PayrollDTO request);
         Task<BaseResponse> DeletePayroll(int id);
-        Task<BaseResponse> GetAllPayrollTemps();
+        Task<BaseResponse> GetAllPayrollTemps(PayrollTempFilterDTO request);
         Task<BaseResponse> GetPayrollTempById(int payrollTempId);
         Task<BaseResponse> InsertPayrollTemp(PayrollTempDTO request);
         Task<BaseResponse> UpdatePayrollTemp(PayrollTempDTO request);

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Payrolls";
+    ViewData["Title"] = "Payroll Temps";
     Layout = null;
 }
 <!DOCTYPE html>
@@ -50,8 +50,8 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Payrolls</h2>
-                    <button type="button" class="btn btn-info btn-sm insert" style="float:right;"> New Payroll </button>
+                    <h2>Payroll Temps</h2>
+                    <button type="button" class="btn btn-info btn-sm insert" style="float:right;"> New Payroll Temp</button>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -126,7 +126,7 @@
     </div>
 
 
-    @Html.Partial("_PayrollDetailModal")
+    @Html.Partial("_PayrollTempDetailModal")
 
 
     <script src="~/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -149,6 +149,6 @@
     <!-- jQuery UI Script -->
     <!-- Select2 -->
     <script src="~/gentelella/vendors/select2/dist/js/select2.full.min.js"></script>
-    <script src="~/js/payroll/payrolls.js"></script>
+    <script src="~/js/payroll/payrollTemps.js"></script>
 </body>
 </html>
