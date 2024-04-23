@@ -288,21 +288,21 @@ namespace Adapters.BaseApi
         }
         public async Task<HttpResponseMessage> GetPayrollTempById(int payrollTempId)
         {
-            return await _httpClient.GetAsync($"{_apiURL}/PayrollTemp/GetPayrollTempById/{payrollTempId}");
+            return await _httpClient.GetAsync($"{_apiURL}/Payroll/GetPayrollTempById/{payrollTempId}");
         }
         public async Task<HttpResponseMessage> InsertPayrollTemp(PayrollTempDTO request)
         {
             //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
-            return await _httpClient.PostAsJsonAsync($"{_apiURL}/PayrollTemp/InsertPayrollTemp", request);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Payroll/InsertPayrollTemp", request);
         }
         public async Task<HttpResponseMessage> UpdatePayrollTemp(PayrollTempDTO request)
         {
             //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
-            return await _httpClient.PostAsJsonAsync($"{_apiURL}/PayrollTemp/UpdatePayrollTemp", request);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Payroll/UpdatePayrollTemp", request);
         }
         public async Task<HttpResponseMessage> DeletePayrollTemp(int id)
         {
-            return await _httpClient.DeleteAsync($"{_apiURL}/PayrollTemp/DeletePayrollTemp/{id}");
+            return await _httpClient.DeleteAsync($"{_apiURL}/Payroll/DeletePayrollTemp/{id}");
         }
         #endregion
     }

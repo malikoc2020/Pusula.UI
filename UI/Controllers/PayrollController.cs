@@ -92,7 +92,7 @@ namespace UI.Controllers
             var res = await _payrollService.GetAllPayrollTemps(request);
             return Json(res);
         }
-        [HttpGet("payrollTemp/GetPayrollTempById/{payrollTempId}")]
+        [HttpGet("payroll/GetPayrollTempById/{payrollTempId}")]
         public async Task<IActionResult> GetPayrollTempById(int payrollTempId)
         {
             var res = await _payrollService.GetPayrollTempById(payrollTempId);
@@ -110,7 +110,7 @@ namespace UI.Controllers
             var res = await _payrollService.UpdatePayrollTemp(request);
             return Json(res);
         }
-        [HttpDelete("payrollTemp/DeletePayrollTemp/{id}")]
+        [HttpDelete("payroll/DeletePayrollTemp/{id}")]
         public async Task<IActionResult> DeletePayrollTemp(int id)
         {
             var res = await _payrollService.DeletePayrollTemp(id);

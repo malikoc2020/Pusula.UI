@@ -63,7 +63,7 @@ var Payrolls = {
 
                             // Append the option to the select element
                             $select.append($option);
-                            $selectFilter.append($option);
+                            $selectFilter.append($option.clone());
 
                         });
 
@@ -108,7 +108,7 @@ var Payrolls = {
 
                             // Append the option to the select element
                             $select.append($option);
-                            $selectFilter.append($option);
+                            $selectFilter.append($option.clone());
 
                         });
 
@@ -154,7 +154,7 @@ var Payrolls = {
 
                             // Append the option to the select element
                             $select.append($option);
-                            $selectFilter.append($option);
+                            $selectFilter.append($option.clone());
 
                         });
 
@@ -224,8 +224,8 @@ var Payrolls = {
                         render: function (data, type, row) {
                             //return '<button type="button" class="btn btn-success btn-sm edit" data-id="' + row.id + '" data-row="' + row.row + '"> Edit </button>';
 
-                            return `<button type="button" class="btn btn-success btn-sm edit" data-id=${row.id} data-row=${row}> Edit </button>
-                            <button type="button" class="btn btn-danger btn-sm delete" data-id=${row.id}> Delete </button>`;
+                            return `<button type="button" class="btn btn-success btn-sm editPayroll" data-id=${row.id} data-row=${row}> Edit </button>
+                            <button type="button" class="btn btn-danger btn-sm deletePayroll" data-id=${row.id}> Delete </button>`;
 
 
                         },
@@ -237,17 +237,17 @@ var Payrolls = {
             });
         }
 
-        $(document).on('click', '.filter', function () {
+        $(document).off('click', '.filter').on('click', '.filter', function () {
             getPayrolls();
         });
 
-        $('#datatable-buttons').on('click', '.edit', function () {
+        $('#datatable-buttons').off('click', '.editPayroll').on('click', '.editPayroll', function () {
             var payrollId = $(this).data('id');
             console.log("Edit button clicked for payroll ID:", payrollId);
             getPayroll(payrollId);
         });
 
-        $(document).on('click', '.insert', function () {
+        $(document).off('click', '.insert').on('click', '.insert', function () {
 
             let payroll = {
                 id: 0,
@@ -309,7 +309,7 @@ var Payrolls = {
             $("#overtime").val(payroll.overtime);
         }
 
-        $('#editPayrollModal').on('click', '#btnPayrollSave', function () {
+        $('#editPayrollModal').off('click', '#btnPayrollSave').on('click', '#btnPayrollSave', function () {
             let id = $("#id").val();
             let userId = $("#userId").val();
             let yearId = $("#yearId").val();
@@ -359,16 +359,16 @@ var Payrolls = {
             });
 
         });
-        $('#editPayrollModal').on('click', '#btnPayrollCancel', function () {
+        $('#editPayrollModal').off('click', '#btnPayrollCancel').on('click', '#btnPayrollCancel', function () {
             setPayroll(Payrolls.currentPayrollData);
         });
 
-        $('#editPayrollModal').on('hidden.bs.modal', function (e) {
+        $('#editPayrollModal').off('click', 'hidden.bs.modal').on('hidden.bs.modal', function (e) {
             // If you need to reset the global variable or perform other cleanup tasks, do it here
             Payrolls.currentPayrollData = null;
         });
 
-        $('#datatable-buttons').on('click', '.delete', function () {
+        $('#datatable-buttons').off('click', '.deletePayroll').on('click', '.deletePayroll', function () {
             var confirmation = confirm("Are you sure you want to delete this Payroll?");
             if (confirmation) {
                 let id = $(this).data('id');

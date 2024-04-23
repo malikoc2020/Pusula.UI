@@ -51,8 +51,6 @@ var PayrollTemps = {
                     console.log(response); // Handle your data here
                     // You can call other functions to process and display the data
                     if (response.isSuccess) {
-                        console.log("Users : ");
-                        console.log(response.result);
                         var $select = $("#userId");
                         var $selectFilter = $("#userIdFilter");
                         response.result.forEach(function (user) {
@@ -63,7 +61,7 @@ var PayrollTemps = {
 
                             // Append the option to the select element
                             $select.append($option);
-                            $selectFilter.append($option);
+                            $selectFilter.append($option.clone());
 
                         });
 
@@ -108,7 +106,7 @@ var PayrollTemps = {
 
                             // Append the option to the select element
                             $select.append($option);
-                            $selectFilter.append($option);
+                            $selectFilter.append($option.clone());
 
                         });
 
@@ -154,7 +152,7 @@ var PayrollTemps = {
 
                             // Append the option to the select element
                             $select.append($option);
-                            $selectFilter.append($option);
+                            $selectFilter.append($option.clone());
 
                         });
 
@@ -224,8 +222,8 @@ var PayrollTemps = {
                         render: function (data, type, row) {
                             //return '<button type="button" class="btn btn-success btn-sm edit" data-id="' + row.id + '" data-row="' + row.row + '"> Edit </button>';
 
-                            return `<button type="button" class="btn btn-success btn-sm edit" data-id=${row.id} data-row=${row}> Edit </button>
-                            <button type="button" class="btn btn-danger btn-sm delete" data-id=${row.id}> Delete </button>`;
+                            return `<button type="button" class="btn btn-success btn-sm editPayrollTemp" data-id=${row.id} data-row=${row}> Edit </button>
+                            <button type="button" class="btn btn-danger btn-sm deletePayrollTemp" data-id=${row.id}> Delete </button>`;
 
 
                         },
@@ -237,17 +235,17 @@ var PayrollTemps = {
             });
         }
 
-        $(document).on('click', '.filter', function () {
+        $(document).off('click', '.filter').on('click', '.filter', function () {
             getPayrolls();
         });
 
-        $('#datatable-buttons').on('click', '.edit', function () {
+        $('#datatable-buttons').off('click', '.editPayrollTemp').on('click', '.editPayrollTemp', function () {
             var payrollId = $(this).data('id');
             console.log("Edit button clicked for payroll ID:", payrollId);
             getPayroll(payrollId);
         });
 
-        $(document).on('click', '.insert', function () {
+        $(document).off('click', '.insert').on('click', '.insert', function () {
 
             let payroll = {
                 id: 0,
@@ -260,7 +258,7 @@ var PayrollTemps = {
             console.log(payroll);
             PayrollTemps.currentPayrollData = payroll;
             setPayroll(PayrollTemps.currentPayrollData);
-            $('#editPayrollModal').modal('show');
+            $('#editPayrollTempModal').modal('show');
         });
 
 
@@ -281,7 +279,7 @@ var PayrollTemps = {
                         PayrollTemps.currentPayrollData = response.result; // Assign the response to the global variable
                         // Open the modal
                         setPayroll(PayrollTemps.currentPayrollData);
-                        $('#editPayrollModal').modal('show');
+                        $('#editPayrollTempModal').modal('show');
                     } else {
                         console.log(response);
                         // Show error toast here
@@ -308,7 +306,7 @@ var PayrollTemps = {
             $("#overtime").val(payroll.overtime);
         }
 
-        $('#editPayrollModal').on('click', '#btnPayrollSave', function () {
+        $('#editPayrollTempModal').off('click', '#btnPayrollTempSave').on('click', '#btnPayrollTempSave', function () {
             let id = $("#id").val();
             let userId = $("#userId").val();
             let yearId = $("#yearId").val();
@@ -342,7 +340,7 @@ var PayrollTemps = {
                     console.log(response.result);
                     if (response.isSuccess) {
                         getPayrolls();
-                        $('#editPayrollModal').modal('hide');
+                        $('#editPayrollTempModal').modal('hide');
                     } else {
                         console.log(response);
                         // Show error toast here
@@ -358,16 +356,16 @@ var PayrollTemps = {
             });
 
         });
-        $('#editPayrollModal').on('click', '#btnPayrollCancel', function () {
+        $('#editPayrollTempModal').off('click', '#btnPayrollTempCancel').on('click', '#btnPayrollTempCancel', function () {
             setPayroll(PayrollTemps.currentPayrollData);
         });
 
-        $('#editPayrollModal').on('hidden.bs.modal', function (e) {
+        $('#editPayrollTempModal').off('click', 'hidden.bs.modal').on('hidden.bs.modal', function (e) {
             // If you need to reset the global variable or perform other cleanup tasks, do it here
             PayrollTemps.currentPayrollData = null;
         });
 
-        $('#datatable-buttons').on('click', '.delete', function () {
+        $('#datatable-buttons').off('click', '.deletePayrollTemp').on('click', '.deletePayrollTemp', function () {
             var confirmation = confirm("Are you sure you want to delete this Payroll?");
             if (confirmation) {
                 let id = $(this).data('id');
@@ -390,7 +388,6 @@ var PayrollTemps = {
                         console.log(response);
                         // Show error toast here
                         toastr.error('Error occurred: ' + response.errorMessage);
-
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
