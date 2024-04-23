@@ -55,5 +55,8 @@ namespace Adapters.BaseApi
         Task<HttpResponseMessage> InsertPayrollTemp(PayrollTempDTO request);
         Task<HttpResponseMessage> UpdatePayrollTemp(PayrollTempDTO request);
         Task<HttpResponseMessage> DeletePayrollTemp(int id);
+        Task<HttpResponseMessage> Transfer(PayrollTransferDTO request);
+        Task<HttpResponseMessage> Refresh(PayrollRefreshDTO request);
+
     }
 }

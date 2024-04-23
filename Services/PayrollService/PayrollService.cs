@@ -265,5 +265,32 @@ namespace Services.PayrollService
             baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse?.Message}";
             return baseApiResponse;
         }
+
+
+
+        public async Task<BaseResponse> Transfer(PayrollTransferDTO request)
+        {
+            var response = await _baseApiAdapter.Transfer(request);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return baseApiResponse;
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }        
+        public async Task<BaseResponse> Refresh(PayrollRefreshDTO request)
+        {
+            var response = await _baseApiAdapter.Refresh(request);
+            var content = await response.Content.ReadAsStringAsync();
+            var baseApiResponse = JsonConvert.DeserializeObject<BaseResponse>(content);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return baseApiResponse;
+            }
+            baseApiResponse.Message = $"Api Status Code : {response.StatusCode} {baseApiResponse.Message}";
+            return baseApiResponse;
+        }
     }
 }

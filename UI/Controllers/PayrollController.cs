@@ -48,6 +48,9 @@ namespace UI.Controllers
             var res = await _payrollService.DeletePayrollSetting(id);
             return Json(res);
         }
+
+
+
         public async Task<IActionResult> Payrolls()
         {
             return View();
@@ -82,6 +85,10 @@ namespace UI.Controllers
             var res = await _payrollService.DeletePayroll(id);
             return Json(res);
         }
+
+
+
+
         public async Task<IActionResult> PayrollTemps()
         {
             return View();
@@ -114,6 +121,21 @@ namespace UI.Controllers
         public async Task<IActionResult> DeletePayrollTemp(int id)
         {
             var res = await _payrollService.DeletePayrollTemp(id);
+            return Json(res);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Transfer([FromBody] PayrollTransferDTO request)
+        {
+            var res = await _payrollService.Transfer(request);
+            return Json(res);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Refresh([FromBody] PayrollRefreshDTO request)
+        {
+            var res = await _payrollService.Refresh(request);
             return Json(res);
         }
     }

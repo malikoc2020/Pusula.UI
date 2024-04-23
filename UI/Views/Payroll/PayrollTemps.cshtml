@@ -51,7 +51,11 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Payroll Temps</h2>
-                    <button type="button" class="btn btn-info btn-sm insert" style="float:right;"> New Payroll Temp</button>
+                    <div style="float:right;">
+                        <button type="button" class="btn btn-danger btn-sm transfer"> Transfer</button>
+                        <button type="button" class="btn btn-warning btn-sm refresh"> Refresh/Fill All Payroll Temp Lines</button>
+                        <button type="button" class="btn btn-info btn-sm insert"> New Payroll Temp Line</button>
+                    </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -125,8 +129,9 @@
         </div>
     </div>
 
-
     @Html.Partial("_PayrollTempDetailModal")
+    @Html.Partial("_PayrollTempToPayrollModal")
+    @Html.Partial("_PayrollTempRefreshModal")
 
 
     <script src="~/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js"></script>

@@ -200,25 +200,25 @@ namespace Adapters.BaseApi
         #region Payroll
         public async Task<HttpResponseMessage> GetAllPayrollSettings()
         {
-            return await _httpClient.GetAsync($"{_apiURL}/PayrollSetting/GetAllPayrollSettings");
+            return await _httpClient.GetAsync($"{_apiURL}/Payroll/GetAllPayrollSettings");
         }
         public async Task<HttpResponseMessage> GetPayrollSettingById(int payrollSettingId)
         {
-            return await _httpClient.GetAsync($"{_apiURL}/PayrollSetting/GetPayrollSettingById/{payrollSettingId}");
+            return await _httpClient.GetAsync($"{_apiURL}/Payroll/GetPayrollSettingById/{payrollSettingId}");
         }
         public async Task<HttpResponseMessage> InsertPayrollSetting(PayrollSettingDTO request)
         {
             //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
-            return await _httpClient.PostAsJsonAsync($"{_apiURL}/PayrollSetting/InsertPayrollSetting", request);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Payroll/InsertPayrollSetting", request);
         }
         public async Task<HttpResponseMessage> UpdatePayrollSetting(PayrollSettingDTO request)
         {
             //request.UserId = GetClaimByType(_httpContextAccessor, ClaimTypes.PrimarySid);
-            return await _httpClient.PostAsJsonAsync($"{_apiURL}/PayrollSetting/UpdatePayrollSetting", request);
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Payroll/UpdatePayrollSetting", request);
         }
         public async Task<HttpResponseMessage> DeletePayrollSetting(int id)
         {
-            return await _httpClient.DeleteAsync($"{_apiURL}/PayrollSetting/DeletePayrollSetting/{id}");
+            return await _httpClient.DeleteAsync($"{_apiURL}/Payroll/DeletePayrollSetting/{id}");
         }
 
         public async Task<HttpResponseMessage> GetAllPayrolls(PayrollFilterDTO request)
@@ -303,6 +303,15 @@ namespace Adapters.BaseApi
         public async Task<HttpResponseMessage> DeletePayrollTemp(int id)
         {
             return await _httpClient.DeleteAsync($"{_apiURL}/Payroll/DeletePayrollTemp/{id}");
+        }
+
+        public async Task<HttpResponseMessage> Transfer(PayrollTransferDTO request)
+        {
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Payroll/Transfer", request);
+        }        
+        public async Task<HttpResponseMessage> Refresh(PayrollRefreshDTO request)
+        {
+            return await _httpClient.PostAsJsonAsync($"{_apiURL}/Payroll/Refresh", request);
         }
         #endregion
     }

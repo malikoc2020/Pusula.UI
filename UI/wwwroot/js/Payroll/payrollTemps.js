@@ -97,6 +97,9 @@ var PayrollTemps = {
                        
                         var $select = $("#yearId");
                         var $selectFilter = $("#yearIdFilter");
+                        var $selectTransfer = $("#yearIdTransfer");
+                        var $selectRefresh = $("#yearIdRefresh");
+
 
                         response.result.forEach(function (province) {
                             // Create an option element
@@ -107,6 +110,8 @@ var PayrollTemps = {
                             // Append the option to the select element
                             $select.append($option);
                             $selectFilter.append($option.clone());
+                            $selectTransfer.append($option.clone());
+                            $selectRefresh.append($option.clone());
 
                         });
 
@@ -120,7 +125,20 @@ var PayrollTemps = {
                             allowClear: true,
                             width: '100%'  // Set the width to 100%
                         });
+                        $selectTransfer.select2({
+                            placeholder: "Select a Year",
+                            allowClear: true,
+                            width: '100%'  // Set the width to 100%
+                        });
+                        $selectRefresh.select2({
+                            placeholder: "Select a Year",
+                            allowClear: true,
+                            width: '100%'  // Set the width to 100%
+                        });
                         $selectFilter.val(null).trigger('change');
+                        $selectTransfer.val(null).trigger('change');
+                        $selectRefresh.val(null).trigger('change');
+
 
                     } else {
 
@@ -143,6 +161,8 @@ var PayrollTemps = {
 
                         var $select = $("#monthId");
                         var $selectFilter = $("#monthIdFilter");
+                        var $selectTransfer = $("#monthIdTransfer");
+                        var $selectRefresh = $("#monthIdRefresh");
 
                         response.result.forEach(function (province) {
                             // Create an option element
@@ -153,6 +173,9 @@ var PayrollTemps = {
                             // Append the option to the select element
                             $select.append($option);
                             $selectFilter.append($option.clone());
+                            $selectTransfer.append($option.clone());
+                            $selectRefresh.append($option.clone());
+
 
                         });
 
@@ -166,8 +189,20 @@ var PayrollTemps = {
                             allowClear: true,
                             width: '100%'  // Set the width to 100%
                         });
+                        $selectTransfer.select2({
+                            placeholder: "Select a Year",
+                            allowClear: true,
+                            width: '100%'  // Set the width to 100%
+                        });
+                        $selectRefresh.select2({
+                            placeholder: "Select a Year",
+                            allowClear: true,
+                            width: '100%'  // Set the width to 100%
+                        });
                         $selectFilter.val(null).trigger('change');
-
+                        $selectTransfer.val(null).trigger('change');
+                        $selectRefresh.val(null).trigger('change');
+                        
                     } else {
 
                     }
@@ -397,6 +432,88 @@ var PayrollTemps = {
                 }
             });
         }
+
+        $(document).off('click', '.transfer').on('click', '.transfer', function () {
+            $('#editPayrollTemptoPayrollModal').modal('show');
+        });
+
+        $('#editPayrollTemptoPayrollModal').off('click', '#btnTransfer').on('click', '#btnTransfer', function () {
+            let yearId = $("#yearIdTransfer").val();
+            let monthId = $("#monthIdTransfer").val();
+
+            var request = {
+                YearId: yearId,
+                MonthId: monthId
+            }
+
+            let URL = '/Payroll/Transfer';
+
+            $.ajax({
+                url: URL, // Update with the correct endpoint URL
+                method: 'POST',
+                contentType: 'application/json', // Specify the content type
+                data: JSON.stringify(request), // Convert the JavaScript object to a JSON string
+                success: function (response) {
+                    // Handle success
+                    console.log('Update successful:');
+                    console.log(response.result);
+                    if (response.isSuccess) {
+                        $('#editPayrollTemptoPayrollModal').modal('hide');
+                    } else {
+                        console.log(response);
+                        // Show error toast here
+                        toastr.error('Error occurred: ' + response.errorMessage);
+
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Handle error
+                    console.error('Error updating payroll: ' + textStatus, errorThrown);
+                    toastr.error('Error fetching data: ' + textStatus + ', ' + errorThrown);
+                }
+            });
+        });
+
+        $(document).off('click', '.refresh').on('click', '.refresh', function () {
+            $('#editPayrollTempRefreshModal').modal('show');
+        });
+
+        $('#editPayrollTempRefreshModal').off('click', '#btnRefresh').on('click', '#btnRefresh', function () {
+            let yearId = $("#yearIdRefresh").val();
+            let monthId = $("#monthIdRefresh").val();
+
+            var request = {
+                YearId: yearId,
+                MonthId: monthId
+            }
+
+            let URL = '/Payroll/Refresh';
+
+            $.ajax({
+                url: URL, // Update with the correct endpoint URL
+                method: 'POST',
+                contentType: 'application/json', // Specify the content type
+                data: JSON.stringify(request), // Convert the JavaScript object to a JSON string
+                success: function (response) {
+                    // Handle success
+                    console.log('Update successful:');
+                    console.log(response.result);
+                    if (response.isSuccess) {
+                        $('#editPayrollTempRefreshModal').modal('hide');
+                    } else {
+                        console.log(response);
+                        // Show error toast here
+                        toastr.error('Error occurred: ' + response.errorMessage);
+
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Handle error
+                    console.error('Error updating payroll: ' + textStatus, errorThrown);
+                    toastr.error('Error fetching data: ' + textStatus + ', ' + errorThrown);
+                }
+            });
+        });
     },
 };
 

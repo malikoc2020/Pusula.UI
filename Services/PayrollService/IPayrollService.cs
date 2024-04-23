@@ -20,5 +20,7 @@ namespace Services.PayrollService
         Task<BaseResponse> InsertPayrollTemp(PayrollTempDTO request);
         Task<BaseResponse> UpdatePayrollTemp(PayrollTempDTO request);
         Task<BaseResponse> DeletePayrollTemp(int id);
+        Task<BaseResponse> Transfer(PayrollTransferDTO request);
+        Task<BaseResponse> Refresh(PayrollRefreshDTO request);
     }
 }
