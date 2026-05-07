@@ -59,7 +59,7 @@ The system uses a **hybrid authentication approach**:
 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-repo/pusula-ui.git
+git clone https://github.com/malikoc2020/Pusula.UI.git
 ```
 
 2. Open the solution file in **Visual Studio**
