@@ -2,9 +2,7 @@
 
 ## 📌 Overview
 
-Pusula.UI is an ASP.NET Core MVC frontend application for a modular employee management system.
-
-It works together with **Pusula.API**, which provides RESTful backend services for authentication, users, permissions, and worksite management.
+Pusula.UI is an ASP.NET Core MVC frontend application that consumes RESTful services provided by Pusula.API to manage employees, permissions, and worksite operations in a modular system.
 
 ---
 
@@ -46,25 +44,28 @@ The system uses a **hybrid authentication approach**:
 - Bootstrap (Gentelella)
 - jQuery
 - DataTables
-- 
-**Backend**
-- ASP.NET Core Web API
-- Entity Framework Core
-- MySQL (8.0+)
-- JWT Authentication
+- AJAX (HTTP requests for API communication) 
 
----
 
 ## 🚀 Getting Started
 
 ### Requirements
-- .NET 6+
+- .NET 7
 - Running Pusula.API
 - MySQL (8.0+)
 
 ### Run
 
+1. Clone the repository
+
 ```bash
-dotnet restore
-dotnet build
-dotnet run
+git clone https://github.com/your-repo/pusula-ui.git
+```
+
+2. Open the solution file in **Visual Studio**
+
+3. Set startup project as `Pusula.UI`
+
+4. Configure ApiSettings:BaseUrl in appsettings.json
+   
+5. Run the project using IIS Express or `Ctrl + F5`
