@@ -10,7 +10,7 @@ Pusula.UI is an ASP.NET Core MVC frontend application that consumes RESTful serv
 
 - **Frontend:** ASP.NET Core MVC (Razor Views)
 - **Backend:** ASP.NET Core Web API (Pusula.API)
-- **Communication:** Service layer via HTTP (BaseApiAdapter)
+- **Communication:** Adapter-based HTTP service layer (BaseApiAdapter)
 - **No direct database access from UI**
 
 ---
@@ -34,7 +34,7 @@ Pusula.API
 - JWT token forwarding via Claims-based authentication
 - Adapter-based service abstraction
 - Consistent API response handling
-
+```
 ---
 
 ## 🔐 Authentication
@@ -89,6 +89,6 @@ git clone https://github.com/malikoc2020/Pusula.UI.git
 
 3. Set startup project as `Pusula.UI`
 
-4. Configure ApiSettings:BaseUrl in appsettings.json
+4. Configure `ApiSettings:BaseUrl` in `appsettings.json`
    
 5. Run the project using IIS Express or `Ctrl + F5`
