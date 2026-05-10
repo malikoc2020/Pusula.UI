@@ -29,12 +29,12 @@ Service Layer
 BaseApiAdapter
     ↓
 Pusula.API
-
+```
 - Centralized API communication using HttpClient
 - JWT token forwarding via Claims-based authentication
 - Adapter-based service abstraction
 - Consistent API response handling
-```
+
 ---
 
 ## 🔐 Authentication
