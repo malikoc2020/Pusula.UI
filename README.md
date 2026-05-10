@@ -15,7 +15,7 @@ Pusula.UI is an ASP.NET Core MVC frontend application that consumes RESTful serv
 
 ---
 
-## API Communication
+## 🔄 API Communication
 
 Pusula.UI communicates with Pusula.API through a layered service structure built on top of `HttpClient`.
 
@@ -30,6 +30,12 @@ BaseApiAdapter
     ↓
 Pusula.API
 
+- Centralized API communication using HttpClient
+- JWT token forwarding via Claims-based authentication
+- Adapter-based service abstraction
+- Consistent API response handling
+
+---
 
 ## 🔐 Authentication
 
@@ -62,6 +68,7 @@ The system uses a **hybrid authentication approach**:
 - DataTables
 - AJAX (HTTP requests for API communication) 
 
+---
 
 ## 🚀 Getting Started
 
