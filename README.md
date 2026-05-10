@@ -12,6 +12,7 @@ Pusula.UI is an ASP.NET Core MVC frontend application that consumes RESTful serv
 - **Backend:** ASP.NET Core Web API (Pusula.API)
 - **Communication:** Adapter-based HTTP service layer (BaseApiAdapter)
 - **No direct database access from UI**
+- Designed for scalable API-driven architecture
 
 ---
 
